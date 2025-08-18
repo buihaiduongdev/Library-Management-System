@@ -1,0 +1,24 @@
+# Build results
+bin/
+obj/
+Debug/
+Release/
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Others
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# Database files (local only, không push lên git)
+*.mdf
+*.ldf
+*.bak
+ 
