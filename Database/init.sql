@@ -31,3 +31,27 @@ CREATE TABLE DocGia(
 	NgayHetHan DATE NOT NULL,
 	TrangThai VARCHAR(50) NOT NULL CHECK(TrangThai IN ('ConHan', 'HetHan', 'TamKhoa'))
 );
+-------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
+CREATE TABLE TraSach (
+    MaTraSach INT PRIMARY KEY IDENTITY(1,1),
+    MaTheMuon INT NOT NULL REFERENCES The_Muon(MaTheMuon)
+        ON DELETE CASCADE, 
+    MaNV VARCHAR(50) NULL REFERENCES NhanVien(MaNV)
+        ON DELETE SET NULL, 
+    NgayTraDuKien DATE NOT NULL, 
+    NgayTraThucTe DATE NULL, 
+    ChatLuongSach VARCHAR(20) NOT NULL CHECK (ChatLuongSach IN ('Tot', 'HuHong', 'Mat')), 
+    GhiChu NVARCHAR(255) NULL, -- Ghi chú bổ sung
+    DaThongBao BIT NOT NULL DEFAULT 0 
+);
+
+CREATE TABLE ThePhat (
+    MaPhat INT PRIMARY KEY IDENTITY(1,1),
+    MaTraSach INT NOT NULL REFERENCES TraSach(MaTraSach)
+        ON DELETE CASCADE, -- Xóa khoản phạt nếu bản ghi trả sách bị xóa
+    SoTienPhat DECIMAL(10,2) NOT NULL,
+    LyDoPhat NVARCHAR(100) NOT NULL, 
+    TrangThaiThanhToan VARCHAR(20) NOT NULL CHECK (TrangThaiThanhToan IN ('DaThanhToan', 'ChuaThanhToan', 'MienPhi')),
+    NgayThanhToan DATE NULL, -- Ngày thanh toán phạt (NULL nếu chưa thanh toán)
+    GhiChu NVARCHAR(255) NULL -- Ghi chú bổ sung
+);
