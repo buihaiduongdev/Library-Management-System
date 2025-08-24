@@ -55,3 +55,74 @@ CREATE TABLE ThePhat (
     NgayThanhToan DATE NULL, -- Ngày thanh toán phạt (NULL nếu chưa thanh toán)
     GhiChu NVARCHAR(255) NULL -- Ghi chú bổ sung
 );
+-------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
+
+CREATE TABLE NhaCungCap (
+    MaNhaCungCap VARCHAR(10) PRIMARY KEY,
+    TenNhaCungCap VARCHAR(100) NOT NULL,
+    DiaChi VARCHAR(200),
+    SoDienThoai VARCHAR(15),
+    Email VARCHAR(100)
+);
+
+CREATE TABLE SachCungCap (
+    MaSachNCC VARCHAR(10) PRIMARY KEY,  
+    MaNhaCungCap VARCHAR(10) NOT NULL,
+    TenSach VARCHAR(100) NOT NULL,
+    TacGia VARCHAR(100),
+    TheLoai VARCHAR(50),
+    NamXuatBan INT,
+    NhaXuatBan VARCHAR(100),
+    GiaNhap DECIMAL(10, 2) DEFAULT 0.00,  
+    SoLuongSanSang INT DEFAULT 0,  
+    FOREIGN KEY (MaNhaCungCap) REFERENCES NhaCungCap(MaNhaCungCap),
+    CHECK (GiaNhap >= 0),
+    CHECK (SoLuongSanSang >= 0)
+);
+
+CREATE TABLE Sach (
+    MaSach VARCHAR(10) PRIMARY KEY,
+    TenSach VARCHAR(100) NOT NULL,
+    TacGia VARCHAR(100),
+    TheLoai VARCHAR(50),
+    NamXuatBan INT,
+    NhaXuatBan VARCHAR(100),
+    SoLuongHienTai INT DEFAULT 0,
+    TrangThaiSach VARCHAR(20) CHECK (TrangThaiSach IN ('ConSach', 'HetSach')),
+    CHECK (SoLuongHienTai >= 0)
+);
+
+CREATE TABLE TheNhapSach (
+    MaTheNhap VARCHAR(10) PRIMARY KEY,
+    NgayNhap DATE NOT NULL,
+    MaNhaCungCap VARCHAR(10),
+    TongSoLuongNhap INT DEFAULT 0,
+    TongChiPhiNhap DECIMAL(10, 2) DEFAULT 0.00,
+    TrangThaiNhap VARCHAR(20) CHECK (TrangThaiNhap IN ('DaNhap', 'ChuaNhap')),
+    FOREIGN KEY (MaNhaCungCap) REFERENCES NhaCungCap(MaNhaCungCap),
+    CHECK (TongSoLuongNhap >= 0),
+    CHECK (TongChiPhiNhap >= 0)
+);
+
+CREATE TABLE ChiTietTheNhap (
+    MaTheNhap VARCHAR(10),
+    MaSach VARCHAR(10),
+    SoLuongNhap INT DEFAULT 0,
+    ChiPhiNhap DECIMAL(10, 2) DEFAULT 0.00,
+    TrangThaiNhap VARCHAR(20) CHECK (TrangThaiNhap IN ('DaNhap', 'ChuaNhap')),
+    PRIMARY KEY (MaTheNhap, MaSach),
+    FOREIGN KEY (MaTheNhap) REFERENCES TheNhapSach(MaTheNhap),
+    FOREIGN KEY (MaSach) REFERENCES Sach(MaSach),
+    CHECK (SoLuongNhap >= 0),
+    CHECK (ChiPhiNhap >= 0)
+);
+
+CREATE TABLE ThanhLySach (
+    MaThanhLy VARCHAR(10) PRIMARY KEY,
+    NgayThanhLy DATE NOT NULL,
+    MaSach VARCHAR(10),
+    SoLuongThanhLy INT DEFAULT 0,
+    LyDo VARCHAR(200),
+    FOREIGN KEY (MaSach) REFERENCES Sach(MaSach),
+    CHECK (SoLuongThanhLy >= 0)
+);
