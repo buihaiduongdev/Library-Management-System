@@ -126,3 +126,27 @@ CREATE TABLE ThanhLySach (
     FOREIGN KEY (MaSach) REFERENCES Sach(MaSach),
     CHECK (SoLuongThanhLy >= 0)
 );
+--------------------------Vu Minh Hieu- Quan Ly Muon Sach --------------------------
+CREATE TABLE TheMuon (
+    MaTheMuon INT PRIMARY KEY IDENTITY(1,1),
+    MaDG INT NOT NULL REFERENCES DocGia(ID)
+        ON DELETE CASCADE, -- Nếu xóa độc giả thì xóa phiếu mượn
+    MaNV VARCHAR(50) NULL REFERENCES NhanVien(MaNV)
+        ON DELETE SET NULL, -- Nếu nhân viên nghỉ thì vẫn giữ phiếu
+    NgayMuon DATE NOT NULL,
+    NgayHenTra DATE NOT NULL,
+    TrangThai VARCHAR(20) NOT NULL 
+        CHECK (TrangThai IN ('DangMuon','DaTra','TreHan'))
+);
+
+-- Bảng chi tiết phiếu mượn (một phiếu mượn có nhiều sách)
+CREATE TABLE ChiTietTheMuon (
+    MaTheMuon INT NOT NULL,
+    MaSach VARCHAR(10) NOT NULL,
+    SoLuong INT DEFAULT 1 CHECK (SoLuong > 0),
+    PRIMARY KEY (MaTheMuon, MaSach),
+    FOREIGN KEY (MaTheMuon) REFERENCES TheMuon(MaTheMuon)
+        ON DELETE CASCADE,
+    FOREIGN KEY (MaSach) REFERENCES Sach(MaSach)
+        ON DELETE CASCADE
+);
