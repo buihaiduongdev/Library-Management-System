@@ -6,13 +6,13 @@ RETURNS NVARCHAR(50)
 AS
 BEGIN
 	DECLARE @NgayHetHan DATE;
-	DECLARE @TrangThai NVARCHAR(50)
+	DECLARE @TrangThai VARCHAR(50)
 
 	SELECT @NgayHetHan = NgayHetHan FROM DocGia WHERE MaDG = @MaDG
 	IF (@NgayHetHan < GETDATE())
-		SET @TrangThai = N'Thẻ Đọc giả đã hết hạn';
+		SET @TrangThai = N'ConHan';
 	ELSE
-		SET @TrangThai = N'Thẻ Đọc giả còn hạn';
+		SET @TrangThai = N'HetHan';
 
 	RETURN @TrangThai;
 END;

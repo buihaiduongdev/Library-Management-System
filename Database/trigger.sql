@@ -7,9 +7,9 @@ AFTER INSERT
 AS
 BEGIN
 	UPDATE NhanVien
-	SET MaNV = 'NV' + RIGHT('0000' + CAST(i.Id AS varchar(4)), 4)
+	SET MaNV = 'NV' + RIGHT('0000' + CAST(i.IdNV AS varchar(4)), 4)
 	FROM NhanVien NV
-	INNER JOIN inserted i ON NV.Id = i.Id
+	INNER JOIN inserted i ON NV.IdNV = i.IdNV
 END;
 GO
 
