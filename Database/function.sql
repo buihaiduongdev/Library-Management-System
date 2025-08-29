@@ -17,3 +17,19 @@ BEGIN
 	RETURN @TrangThai;
 END;
 GO
+
+
+CREATE FUNCTION fn_TimKiemDocGia (@TuKhoa NVARCHAR(100))
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT *
+    FROM DocGia
+    WHERE
+        MaDG LIKE '%' + @TuKhoa + '%' OR
+        HoTen LIKE '%' + @TuKhoa + '%' OR
+        SoDienThoai LIKE '%' + @TuKhoa + '%' OR
+        Email LIKE '%' + @TuKhoa + '%'
+);
+GO
