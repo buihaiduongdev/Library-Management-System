@@ -36,75 +36,62 @@ CREATE TABLE DocGia(
 	TrangThai VARCHAR(50) NOT NULL CHECK(TrangThai IN ('ConHan', 'HetHan', 'TamKhoa'))
 );
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
-
-CREATE TABLE NhaCungCap (
-    MaNhaCungCap VARCHAR(10) PRIMARY KEY,
-    TenNhaCungCap VARCHAR(100) NOT NULL,
-    DiaChi VARCHAR(200),
-    SoDienThoai VARCHAR(15),
-    Email VARCHAR(100)
+CREATE TABLE TAC_GIA (
+  MaTacGia VARCHAR(10) PRIMARY KEY,
+  TenTacGia VARCHAR(100)
 );
 
-CREATE TABLE SachCungCap (
-    MaSachNCC VARCHAR(10) PRIMARY KEY,  
-    MaNhaCungCap VARCHAR(10) NOT NULL,
-    TenSach VARCHAR(100) NOT NULL,
-    TacGia VARCHAR(100),
-    TheLoai VARCHAR(50),
-    NamXuatBan INT,
-    NhaXuatBan VARCHAR(100),
-    GiaNhap DECIMAL(10, 2) DEFAULT 0.00,  
-    SoLuongSanSang INT DEFAULT 0,  
-    FOREIGN KEY (MaNhaCungCap) REFERENCES NhaCungCap(MaNhaCungCap),
-    CHECK (GiaNhap >= 0),
-    CHECK (SoLuongSanSang >= 0)
+CREATE TABLE THE_LOAI (
+  MaTheLoai VARCHAR(10) PRIMARY KEY,
+  TenTheLoai VARCHAR(100)
 );
 
-CREATE TABLE Sach (
-    MaSach VARCHAR(10) PRIMARY KEY,
-    TenSach VARCHAR(100) NOT NULL,
-    TacGia VARCHAR(100),
-    TheLoai VARCHAR(50),
-    NamXuatBan INT,
-    NhaXuatBan VARCHAR(100),
-    SoLuongHienTai INT DEFAULT 0,
-    TrangThaiSach VARCHAR(20) CHECK (TrangThaiSach IN ('ConSach', 'HetSach')),
-    CHECK (SoLuongHienTai >= 0)
+CREATE TABLE NHA_XUAT_BAN (
+  MaNXB VARCHAR(10) PRIMARY KEY,
+  TenNXB VARCHAR(100)
 );
 
-CREATE TABLE TheNhapSach (
-    MaTheNhap VARCHAR(10) PRIMARY KEY,
-    NgayNhap DATE NOT NULL,
-    MaNhaCungCap VARCHAR(10),
-    TongSoLuongNhap INT DEFAULT 0,
-    TongChiPhiNhap DECIMAL(10, 2) DEFAULT 0.00,
-    TrangThaiNhap VARCHAR(20) CHECK (TrangThaiNhap IN ('DaNhap', 'ChuaNhap')),
-    FOREIGN KEY (MaNhaCungCap) REFERENCES NhaCungCap(MaNhaCungCap),
-    CHECK (TongSoLuongNhap >= 0),
-    CHECK (TongChiPhiNhap >= 0)
+CREATE TABLE SACH (
+  MaSach VARCHAR(10) PRIMARY KEY,
+  TenSach VARCHAR(100),
+  NamXuatBan INT,
+  MaTacGia VARCHAR(10),
+  MaTheLoai VARCHAR(10),
+  MaNXB VARCHAR(10),
+  FOREIGN KEY (MaTacGia) REFERENCES TAC_GIA(MaTacGia),
+  FOREIGN KEY (MaTheLoai) REFERENCES THE_LOAI(MaTheLoai),
+  FOREIGN KEY (MaNXB) REFERENCES NHA_XUAT_BAN(MaNXB)
 );
 
-CREATE TABLE ChiTietTheNhap (
-    MaTheNhap VARCHAR(10),
-    MaSach VARCHAR(10),
-    SoLuongNhap INT DEFAULT 0,
-    ChiPhiNhap DECIMAL(10, 2) DEFAULT 0.00,
-    TrangThaiNhap VARCHAR(20) CHECK (TrangThaiNhap IN ('DaNhap', 'ChuaNhap')),
-    PRIMARY KEY (MaTheNhap, MaSach),
-    FOREIGN KEY (MaTheNhap) REFERENCES TheNhapSach(MaTheNhap),
-    FOREIGN KEY (MaSach) REFERENCES Sach(MaSach),
-    CHECK (SoLuongNhap >= 0),
-    CHECK (ChiPhiNhap >= 0)
+CREATE TABLE The_Nhap (
+  MaTheNhap VARCHAR(10) PRIMARY KEY,
+  NgayNhap DATE,
+  MaNV VARCHAR(10),
+  TongSoLuongNhap INT,
+  TrangThai VARCHAR(50) NOT NULL CHECK(TrangThai IN ('DaNhap', 'ChuaNhap')),
+  MaSach VARCHAR(10),
+  FOREIGN KEY (MaSach) REFERENCES SACH(MaSach)
 );
 
-CREATE TABLE ThanhLySach (
-    MaThanhLy VARCHAR(10) PRIMARY KEY,
-    NgayThanhLy DATE NOT NULL,
-    MaSach VARCHAR(10),
-    SoLuongThanhLy INT DEFAULT 0,
-    LyDo VARCHAR(200),
-    FOREIGN KEY (MaSach) REFERENCES Sach(MaSach),
-    CHECK (SoLuongThanhLy >= 0)
+CREATE TABLE SangTac (
+  MaTacGia VARCHAR(10),
+  MaSach VARCHAR(10),
+  PRIMARY KEY (MaTacGia, MaSach),
+  FOREIGN KEY (MaTacGia) REFERENCES TAC_GIA(MaTacGia),
+  FOREIGN KEY (MaSach) REFERENCES SACH(MaSach)
+);
+
+CREATE TABLE XuatBan (
+  MaXuatBan VARCHAR(10) PRIMARY KEY,
+  MaSach VARCHAR(10),
+  FOREIGN KEY (MaSach) REFERENCES SACH(MaSach)
+);
+
+CREATE TABLE Kho_Sach (
+  MaSach VARCHAR(10) PRIMARY KEY,
+  SoLuongHienTai INT,
+  TrangThaiSach VARCHAR(50) NOT NULL CHECK(TrangThaiSach IN ('ConSach', 'HetSach')),
+  FOREIGN KEY (MaSach) REFERENCES SACH(MaSach)
 );
 
 --------------------------Vu Minh Hieu- Quan Ly Muon Sach --------------------------
