@@ -9,7 +9,7 @@ BEGIN
 	DECLARE @TrangThai VARCHAR(50)
 
 	SELECT @NgayHetHan = NgayHetHan FROM DocGia WHERE MaDG = @MaDG
-	IF (@NgayHetHan < GETDATE())
+	IF (@NgayHetHan >= CAST(GETDATE() AS DATE))
 		SET @TrangThai = N'ConHan';
 	ELSE
 		SET @TrangThai = N'HetHan';
