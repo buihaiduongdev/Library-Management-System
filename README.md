@@ -2,7 +2,7 @@
 
 ## 👥 Thành viên nhóm
 - Bùi Hải Dương: Quản lý Độc giả  
-- Phan Ngọc Duy: Quản lý Sách  
+- Phan Ngọc Duy: Quản lý Nhập Sách  
 - Vũ Minh Hiếu: Quản lý Mượn sách  
 - Bùi Thành Tâm: Quản lý Trả sách  
 

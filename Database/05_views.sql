@@ -31,3 +31,37 @@ FROM
 LEFT JOIN
     TaiKhoan tk ON nv.MaTK = tk.MaTK;
 GO
+
+-------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
+CREATE VIEW ViewDanhSachSach AS
+SELECT 
+  s.MaSach, 
+  s.TenSach, 
+  s.NamXuatBan, 
+  t.TenTacGia, 
+  tl.TenTheLoai, 
+  nxb.TenNXB
+FROM SACH s
+JOIN TAC_GIA t ON s.MaTacGia = t.MaTacGia
+JOIN THE_LOAI tl ON s.MaTheLoai = tl.MaTheLoai
+JOIN NHA_XUAT_BAN nxb ON s.MaNXB = nxb.MaNXB;
+
+CREATE VIEW ViewDanhSachTheLoai AS
+SELECT 
+  MaTheLoai, 
+  TenTheLoai
+FROM THE_LOAI;
+
+CREATE VIEW ViewDanhSachTacGia AS
+SELECT 
+  MaTacGia, 
+  TenTacGia
+FROM TAC_GIA;
+
+CREATE VIEW ViewDanhSachNhaXuatBan AS
+SELECT 
+  MaNXB, 
+  TenNXB
+FROM NHA_XUAT_BAN;
+
+
