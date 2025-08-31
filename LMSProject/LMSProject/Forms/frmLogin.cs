@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LMSProject.Forms;
+using LMSProject.Services;
 
 namespace LMSProject
 {
@@ -44,9 +45,18 @@ namespace LMSProject
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            frmMain main = new frmMain();
-            main.Show();
-            this.Hide();
+
+            UserService userService = new UserService();
+            if (userService.Login(txtTaiKhoan.Text, txtMatKhau.Text))
+            {
+                frmMain main = new frmMain();
+                main.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Sai tài khoản hoặc mật khẩu!");
+            }
         }
     }
 }

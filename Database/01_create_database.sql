@@ -8,8 +8,10 @@ CREATE TABLE TaiKhoan(
 	MaTK INT PRIMARY KEY IDENTITY(1, 1),
 	TenDangNhap VARCHAR(50) NOT NULL UNIQUE,
 	MatKhauMaHoa VARCHAR(255) NOT NULL,
-	VaiTro VARCHAR(50) NOT NULL CHECK (VaiTro IN('QuanTriVien', 'ThuThu','NhanVienThuVien')),
-	TrangThai VARCHAR(20) NOT NULL CHECK (TrangThai IN('HoatDong', 'TamKhoa','KhoaVinhVien'))
+    	VaiTro TINYINT NOT NULL CHECK (VaiTro IN (0,1)), 
+    	-- 0 = Admin, 1 = NhanVien
+    	TrangThai TINYINT NOT NULL DEFAULT 1 CHECK (TrangThai IN (0,1,2))
+    	-- 0 = KhoaVinhVien, 1 = HoatDong, 2 = TamKhoa
 );
 
 CREATE TABLE NhanVien(
@@ -20,7 +22,8 @@ CREATE TABLE NhanVien(
 	HoTen NVARCHAR(50) NOT NULL,
 	NgaySinh DATE,
 	Email VARCHAR(50) UNIQUE,
-	SoDienThoai VARCHAR(20) UNIQUE NOT NULL
+	SoDienThoai VARCHAR(20) UNIQUE NOT NULL,
+	ChucVu NVARCHAR(50) NOT NULL CHECK (ChucVu IN ('ThuThu', 'NhanVienPartTime', 'NhanVienFullTime'))
 );
 
 CREATE TABLE DocGia(

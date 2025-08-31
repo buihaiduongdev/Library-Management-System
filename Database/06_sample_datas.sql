@@ -1,19 +1,18 @@
 USE QuanLyThuVien;
 GO
--------------------------- Bui Hai Duong - Quan Ly Doc Gia --------------------------
--- TaiKhoan
+-------------------------- TAI KHOAN --------------------------
 INSERT INTO TaiKhoan (TenDangNhap, MatKhauMaHoa, VaiTro, TrangThai)
-VALUES 
-('admin1', '123456', 'QuanTriVien', 'HoatDong'),
-('thuthu1', '123456', 'ThuThu', 'HoatDong'),
-('nvthu1', '123456', 'NhanVienThuVien', 'HoatDong');
-
--- NhanVien
-INSERT INTO NhanVien (MaTK, HoTen, NgaySinh, Email, SoDienThoai)
 VALUES
-(1, 'Nguyen Van A', '1990-01-15', 'nva@gmail.com', '0123456789'),
-(2, 'Tran Thi B', '1992-03-20', 'ttb@gmail.com', '0987654321'),
-(3, 'Le Van C',  '1995-07-10', 'lvc@gmail.com', '0912345678');
+('admin', '21232f297a57a5a743894a0e4a801fc3', 0, 1), -- mk: admin
+('thuthu', 'e10adc3949ba59abbe56e057f20f883e', 1, 1), -- mk: 123456
+('nvpart', 'e10adc3949ba59abbe56e057f20f883e', 1, 1); -- mk: 123456
+
+-------------------------- NHAN VIEN --------------------------
+INSERT INTO NhanVien (MaTK, HoTen, NgaySinh, Email, SoDienThoai, ChucVu)
+VALUES
+(1, N'Nguyễn Văn A', '1990-01-15', 'nva@gmail.com', '0123456789', 'ThuThu'),
+(2, N'Trần Thị B', '1992-03-20', 'ttb@gmail.com', '0987654321', 'NhanVienFullTime'),
+(3, N'Lê Văn C',  '1995-07-10', 'lvc@gmail.com', '0912345678', 'NhanVienPartTime');
 
 -- DocGia
 INSERT INTO DocGia (HoTen, NgaySinh, DiaChi, Email, SoDienThoai, NgayDangKy, NgayHetHan, TrangThai)
