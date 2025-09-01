@@ -1,6 +1,6 @@
 ﻿namespace LMSProject.Forms
 {
-    partial class frmMain
+    partial class frmMain_Admin
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.pnlSide = new System.Windows.Forms.Panel();
+            this.lblvaiTro = new System.Windows.Forms.Label();
+            this.lblHoten = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.btnDangXuat = new System.Windows.Forms.Label();
@@ -43,6 +46,7 @@
             this.lblClose = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlSide.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel1.SuspendLayout();
@@ -55,6 +59,9 @@
             // pnlSide
             // 
             this.pnlSide.BackColor = System.Drawing.Color.Teal;
+            this.pnlSide.Controls.Add(this.lblvaiTro);
+            this.pnlSide.Controls.Add(this.lblHoten);
+            this.pnlSide.Controls.Add(this.pictureBox4);
             this.pnlSide.Controls.Add(this.panel3);
             this.pnlSide.Controls.Add(this.panel1);
             this.pnlSide.Controls.Add(this.panel2);
@@ -64,6 +71,36 @@
             this.pnlSide.Name = "pnlSide";
             this.pnlSide.Size = new System.Drawing.Size(240, 681);
             this.pnlSide.TabIndex = 0;
+            // 
+            // lblvaiTro
+            // 
+            this.lblvaiTro.AutoSize = true;
+            this.lblvaiTro.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblvaiTro.ForeColor = System.Drawing.Color.White;
+            this.lblvaiTro.Location = new System.Drawing.Point(94, 59);
+            this.lblvaiTro.Name = "lblvaiTro";
+            this.lblvaiTro.Size = new System.Drawing.Size(46, 16);
+            this.lblvaiTro.TabIndex = 6;
+            this.lblvaiTro.Text = "Admin";
+            // 
+            // lblHoten
+            // 
+            this.lblHoten.AutoSize = true;
+            this.lblHoten.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHoten.ForeColor = System.Drawing.Color.White;
+            this.lblHoten.Location = new System.Drawing.Point(94, 77);
+            this.lblHoten.Name = "lblHoten";
+            this.lblHoten.Size = new System.Drawing.Size(131, 18);
+            this.lblHoten.TabIndex = 5;
+            this.lblHoten.Text = "Nguyễn Văn A";
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(85, 92);
+            this.pictureBox4.TabIndex = 4;
+            this.pictureBox4.TabStop = false;
             // 
             // panel3
             // 
@@ -105,7 +142,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(9, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(40, 40);
             this.pictureBox1.TabIndex = 1;
@@ -195,7 +232,7 @@
             this.pnlMain.Size = new System.Drawing.Size(1024, 640);
             this.pnlMain.TabIndex = 2;
             // 
-            // frmMain
+            // frmMain_Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -204,11 +241,13 @@
             this.Controls.Add(this.pnlHeader);
             this.Controls.Add(this.pnlSide);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmMain";
+            this.Name = "frmMain_Admin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmMain";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.pnlSide.ResumeLayout(false);
+            this.pnlSide.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -240,5 +279,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label btnQlNhanVien;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Label lblvaiTro;
+        private System.Windows.Forms.Label lblHoten;
     }
 }

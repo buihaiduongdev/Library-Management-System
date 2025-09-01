@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 using LMSProject.Utils;
+using System.Windows.Forms;
+using LMSProject.Models;
 
 namespace LMSProject.Forms
 {
-    public partial class frmMain : Form
+    public partial class frmMain_NhanVien : Form
     {
-        public frmMain()
+        public frmMain_NhanVien(User user)
         {
             InitializeComponent();
+            lblChucVu.Text = user.ChucVu;
+            lblHoten.Text = user.HoTen;
         }
-
         private void lblClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
         private void OpenChildForm(Form childForm)
         {
             // Nếu panel có form và form đó cùng kiểu với childForm thì không load lại
@@ -52,13 +48,11 @@ namespace LMSProject.Forms
 
             this.Close();
         }
-
         private void btnQlNhanVien_Click(object sender, EventArgs e)
         {
             frmQLSach frmQLSach = new frmQLSach();
             OpenChildForm(frmQLSach);
         }
-
         private void btnQlSach_Click(object sender, EventArgs e)
         {
             frmQLNhanVien frmQLNV = new frmQLNhanVien();
@@ -66,14 +60,14 @@ namespace LMSProject.Forms
         }
 
 
-        private void frmMain_Load(object sender, EventArgs e)
+
+
+        private void frmMain_NhanVien_Load(object sender, EventArgs e)
         {
             DesignHelper.hoverLabel(lblClose);
             DesignHelper.hoverLabel(btnQlSach);
             DesignHelper.hoverLabel(btnQlNhanVien);
             DesignHelper.hoverLabel(btnDangXuat);
-
-
         }
     }
 }

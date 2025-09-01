@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmmain_nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmmain_nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmmain_nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmmain_nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmmain_admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmmain_admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|c:\\users\\haidu\\documents\\workspace\\hqt\\library-management-system\\lmsproject\\lmsproject\\forms\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38F5667D-39E8-42EE-BAE0-1D498D5A9E4F}|LMSProject\\LMSProject.csproj|solutionrelative:lmsproject\\forms\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,15 +46,53 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Program.cs",
-              "RelativeDocumentMoniker": "LMSProject\\Program.cs",
-              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Program.cs",
-              "RelativeToolTip": "LMSProject\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAoAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "LMSProject\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Services\\UserService.cs",
+              "RelativeToolTip": "LMSProject\\Services\\UserService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwCMAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T04:37:04.777Z",
+              "WhenOpened": "2025-09-01T10:28:09.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "frmMain_NhanVien.cs",
+              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain_NhanVien.cs",
+              "RelativeDocumentMoniker": "LMSProject\\Forms\\frmMain_NhanVien.cs",
+              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain_NhanVien.cs",
+              "RelativeToolTip": "LMSProject\\Forms\\frmMain_NhanVien.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-01T10:27:25.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "frmMain_NhanVien.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain_NhanVien.cs",
+              "RelativeDocumentMoniker": "LMSProject\\Forms\\frmMain_NhanVien.cs",
+              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain_NhanVien.cs [Design]",
+              "RelativeToolTip": "LMSProject\\Forms\\frmMain_NhanVien.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-01T10:27:24.004Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "frmMain_Admin.cs",
+              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain_Admin.cs",
+              "RelativeDocumentMoniker": "LMSProject\\Forms\\frmMain_Admin.cs",
+              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain_Admin.cs",
+              "RelativeToolTip": "LMSProject\\Forms\\frmMain_Admin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-01T10:27:13.688Z",
               "EditorCaption": ""
             },
             {
@@ -61,47 +103,22 @@
               "RelativeDocumentMoniker": "LMSProject\\Forms\\frmLogin.cs",
               "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmLogin.cs",
               "RelativeToolTip": "LMSProject\\Forms\\frmLogin.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACEAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAADgvzcAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T04:36:48.685Z",
+              "WhenOpened": "2025-09-01T10:27:06.2Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "frmLogin.cs [Design]",
               "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmLogin.cs",
               "RelativeDocumentMoniker": "LMSProject\\Forms\\frmLogin.cs",
               "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmLogin.cs [Design]",
               "RelativeToolTip": "LMSProject\\Forms\\frmLogin.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T04:33:51.441Z",
+              "WhenOpened": "2025-09-01T10:27:05.173Z",
               "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "frmMain.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain.cs",
-              "RelativeDocumentMoniker": "LMSProject\\Forms\\frmMain.cs",
-              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain.cs [Design]",
-              "RelativeToolTip": "LMSProject\\Forms\\frmMain.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T04:19:45.874Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "frmMain.cs",
-              "DocumentMoniker": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain.cs",
-              "RelativeDocumentMoniker": "LMSProject\\Forms\\frmMain.cs",
-              "ToolTip": "C:\\Users\\haidu\\Documents\\Workspace\\HQT\\Library-Management-System\\LMSProject\\LMSProject\\Forms\\frmMain.cs",
-              "RelativeToolTip": "LMSProject\\Forms\\frmMain.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAUwDMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T04:08:42.818Z",
-              "EditorCaption": ""
             }
           ]
         },

@@ -7,14 +7,14 @@ VALUES
 ('thuthu', 'e10adc3949ba59abbe56e057f20f883e', 1, 1), -- mk: 123456
 ('nvpart', 'e10adc3949ba59abbe56e057f20f883e', 1, 1); -- mk: 123456
 
--------------------------- NHAN VIEN --------------------------
+INSERT INTO [Admin] (MaTK, HoTen, NgaySinh, Email, SoDienThoai)
+VALUES (1, N'Nguyễn Văn A', '1985-05-20', 'admin01@lms.com', '0905123456');
+
 INSERT INTO NhanVien (MaTK, HoTen, NgaySinh, Email, SoDienThoai, ChucVu)
 VALUES
-(1, N'Nguyễn Văn A', '1990-01-15', 'nva@gmail.com', '0123456789', 'ThuThu'),
-(2, N'Trần Thị B', '1992-03-20', 'ttb@gmail.com', '0987654321', 'NhanVienFullTime'),
+(2, N'Trần Thị B', '1992-03-20', 'ttb@gmail.com', '0987654321', 'ThuThu'),
 (3, N'Lê Văn C',  '1995-07-10', 'lvc@gmail.com', '0912345678', 'NhanVienPartTime');
 
--- DocGia
 INSERT INTO DocGia (HoTen, NgaySinh, DiaChi, Email, SoDienThoai, NgayDangKy, NgayHetHan, TrangThai)
 VALUES
 ('Pham Van D', '2000-05-01', '123 Duong A', 'pvd@gmail.com', '0911222333', '2025-08-23', '2026-08-23', 'ConHan'),

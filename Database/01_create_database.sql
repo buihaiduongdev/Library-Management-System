@@ -13,6 +13,14 @@ CREATE TABLE TaiKhoan(
     	TrangThai TINYINT NOT NULL DEFAULT 1 CHECK (TrangThai IN (0,1,2))
     	-- 0 = KhoaVinhVien, 1 = HoatDong, 2 = TamKhoa
 );
+CREATE TABLE [Admin](
+	MaTK INT NULL REFERENCES TaiKhoan(MaTK)
+		ON DELETE SET NULL,
+	HoTen NVARCHAR(50) NOT NULL,
+	NgaySinh DATE,
+	Email VARCHAR(50) UNIQUE,
+	SoDienThoai VARCHAR(20) UNIQUE NOT NULL,
+);
 
 CREATE TABLE NhanVien(
 	IdNV INT PRIMARY KEY IDENTITY(1, 1),
