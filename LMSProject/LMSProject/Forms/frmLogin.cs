@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LMSProject.Forms;
 using LMSProject.Services;
+using LMSProject.Utils;
 
 namespace LMSProject
 {
@@ -19,28 +20,9 @@ namespace LMSProject
             InitializeComponent();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void lblClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-
-        private void lblClose_Enter(object sender, EventArgs e)
-        {
-            lblClose.Cursor = Cursors.Hand;
-            lblClose.BackColor = Color.Crimson;
-            lblClose.ForeColor = Color.White;
-        }
-
-        private void lblClose_Leave(object sender, EventArgs e)
-        {
-            lblClose.BackColor = Color.Transparent;
-            lblClose.ForeColor = Color.Crimson;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -57,6 +39,11 @@ namespace LMSProject
             {
                 MessageBox.Show("Sai tài khoản hoặc mật khẩu!");
             }
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+            DesignHelper.hoverLabel(lblClose);
         }
     }
 }

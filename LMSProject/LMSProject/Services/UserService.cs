@@ -17,18 +17,18 @@ namespace LMSProject.Services
         public bool Login(string username, string password)
         {
             string hashedPassword = SecurityHelper.HashMD5(password);
+            DbHelper db = new DbHelper();
+            string sql = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap=@u AND MatKhauMaHoa=@p";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            var param = new Dictionary<string, object>
             {
-                string query = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap=@u AND MatKhauMaHoa=@p";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@u", username);
-                cmd.Parameters.AddWithValue("@p", hashedPassword);
+                {"@u", username},
+                {"@p", hashedPassword}
+            };
 
-                conn.Open();
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
-            }
+            // Sử dụng ExecuteScalar từ DbHelper
+            int count = Convert.ToInt32(db.ExecuteScalar(sql, param));
+            return count > 0;
         }
     }
 }

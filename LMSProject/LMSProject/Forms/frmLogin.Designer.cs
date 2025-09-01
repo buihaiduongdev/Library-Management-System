@@ -128,8 +128,6 @@
             this.lblClose.TabIndex = 8;
             this.lblClose.Text = "X";
             this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
-            this.lblClose.MouseEnter += new System.EventHandler(this.lblClose_Enter);
-            this.lblClose.MouseLeave += new System.EventHandler(this.lblClose_Leave);
             // 
             // frmLogin
             // 
@@ -151,6 +149,7 @@
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmLogin";
+            this.Load += new System.EventHandler(this.frmLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
