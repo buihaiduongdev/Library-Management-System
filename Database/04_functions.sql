@@ -57,3 +57,58 @@ BEGIN
     RETURN @KetQua;
 END;
 GO
+-------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
+CREATE OR ALTER FUNCTION fn_TinhNgayTreHan
+(
+    @NgayTraDuKien DATE,
+    @NgayTraThucTe DATE
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @SoNgayTre INT;
+
+    IF @NgayTraThucTe IS NULL OR @NgayTraThucTe <= @NgayTraDuKien
+        SET @SoNgayTre = 0;
+    ELSE
+        SET @SoNgayTre = DATEDIFF(DAY, @NgayTraDuKien, @NgayTraThucTe);
+
+    RETURN @SoNgayTre;
+END;
+GO
+
+CREATE OR ALTER FUNCTION fn_TinhTienPhat
+(
+    @NgayTraDuKien DATE,
+    @NgayTraThucTe DATE,
+    @ChatLuongSach VARCHAR(20),
+    @MaSach VARCHAR(10)
+)
+RETURNS DECIMAL(10,2)
+AS
+BEGIN
+    DECLARE @Tien DECIMAL(10,2) = 0;
+    DECLARE @SoNgayTre INT = dbo.fn_TinhNgayTreHan(@NgayTraDuKien, @NgayTraThucTe);
+    DECLARE @GiaSach DECIMAL(10,2);
+
+    SELECT @GiaSach = Gia FROM Sach WHERE MaSach = @MaSach;
+
+    -- Phạt trễ hạn
+    IF @SoNgayTre > 0
+    BEGIN
+        SET @Tien = CASE 
+                        WHEN @SoNgayTre <= 5 THEN @SoNgayTre * 1000
+                        ELSE (5 * 1000) + ((@SoNgayTre - 5) * 3000)
+                    END;
+    END
+
+    -- Phạt hư hỏng
+    IF @ChatLuongSach = 'HuHong'
+        SET @Tien = @Tien + 50000;
+
+    -- Phạt mất sách
+    IF @ChatLuongSach = 'Mat'
+        SET @Tien = @Tien + @GiaSach;
+    RETURN @Tien;
+END;
+GO
