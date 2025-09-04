@@ -65,3 +65,19 @@ SELECT
 FROM NHA_XUAT_BAN;
 
 
+-------------------------- Bui Thanh Tam - Quan Ly Tra Sach ----------------------
+CREATE OR ALTER VIEW vw_TongTienPhat
+AS
+SELECT 
+    dg.ID AS MaDocGia,
+    dg.HoTen,
+    SUM(tp.SoTienPhat) AS TongTienPhat,
+    SUM(CASE WHEN tp.TrangThaiThanhToan = 'ChuaThanhToan' THEN tp.SoTienPhat ELSE 0 END) AS TongNoChuaTra,
+    SUM(CASE WHEN tp.TrangThaiThanhToan = 'DaThanhToan' THEN tp.SoTienPhat ELSE 0 END) AS DaThanhToan,
+    SUM(CASE WHEN tp.TrangThaiThanhToan = 'MienPhi' THEN tp.SoTienPhat ELSE 0 END) AS MienPhi
+FROM ThePhat tp
+JOIN TraSach ts ON tp.MaTraSach = ts.MaTraSach
+JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
+JOIN DocGia dg ON tm.MaDG = dg.ID
+GROUP BY dg.ID, dg.HoTen;
+GO
