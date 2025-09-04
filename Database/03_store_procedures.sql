@@ -64,3 +64,71 @@ BEGIN
     PRINT @KetQua;
 END;
 GO
+-------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
+CREATE OR ALTER PROCEDURE sp_TraSach
+(
+    @MaTheMuon INT,
+    @IdNV INT,
+    @NgayTraThucTe DATE,
+    @ChatLuongSach VARCHAR(20),
+    @GhiChu NVARCHAR(255) = NULL
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @NgayHenTra DATE;
+
+    -- Lấy ngày hẹn trả từ TheMuon
+    SELECT @NgayHenTra = NgayHenTra FROM TheMuon WHERE MaTheMuon = @MaTheMuon;
+
+    -- Thêm bản ghi trả sách
+    INSERT INTO TraSach(MaTheMuon, IdNV, NgayTraDuKien, NgayTraThucTe, ChatLuongSach, GhiChu, DaThongBao)
+    VALUES(@MaTheMuon, @IdNV, @NgayHenTra, @NgayTraThucTe, @ChatLuongSach, @GhiChu, 0);
+
+    -- Cập nhật trạng thái phiếu mượn
+    UPDATE TheMuon
+    SET TrangThai = 'DaTra'
+    WHERE MaTheMuon = @MaTheMuon;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE sp_XemTienPhatDocGia
+(
+    @MaDG INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        dg.ID AS MaDocGia,
+        dg.HoTen,
+        tp.MaPhat,
+        ts.MaTraSach,
+        tm.MaTheMuon,
+        s.TenSach,
+        tp.SoTienPhat,
+        tp.LyDoPhat,
+        tp.TrangThaiThanhToan,
+        tp.NgayThanhToan,
+        tp.GhiChu
+    FROM DocGia dg
+    JOIN TheMuon tm ON dg.ID = tm.MaDG
+    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
+    JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
+    JOIN ChiTietTheMuon ct ON tm.MaTheMuon = ct.MaTheMuon
+    JOIN Sach s ON ct.MaSach = s.MaSach
+    WHERE dg.ID = @MaDG
+    ORDER BY tp.TrangThaiThanhToan, tp.NgayThanhToan;
+
+    -- Tổng tiền phạt chưa thanh toán
+    SELECT 
+        SUM(tp.SoTienPhat) AS TongNoPhat
+    FROM DocGia dg
+    JOIN TheMuon tm ON dg.ID = tm.MaDG
+    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
+    JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
+    WHERE dg.ID = @MaDG AND tp.TrangThaiThanhToan = 'ChuaThanhToan';
+END;
+GO
