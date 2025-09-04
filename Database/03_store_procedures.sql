@@ -29,55 +29,52 @@ BEGIN
 END;
 GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
-CREATE PROCEDURE ThemTheNhap (
-    p_MaTheNhap IN VARCHAR2,
-    p_NgayNhap IN DATE,
-    p_MaNV IN VARCHAR2,
-    p_TongSoLuongNhap IN NUMBER,
-    p_TrangThai IN VARCHAR2,
-    p_MaSach IN VARCHAR2
+
+CREATE PROCEDURE sp_CapNhatKhoSach (
+    @MaSach VARCHAR(10),
+    @SoLuongThem INT
 )
-IS
+AS
 BEGIN
-    -- Kiểm tra số lượng nhập dương
-    IF p_TongSoLuongNhap <= 0 THEN
-        RAISE_APPLICATION_ERROR(-20001, 'Số lượng nhập phải lớn hơn 0');
-    END IF;
+    DECLARE @KetQua VARCHAR(100);
 
-    -- Thêm bản ghi vào The_Nhap
-    INSERT INTO The_Nhap (MaTheNhap, NgayNhap, MaNV, TongSoLuongNhap, TrangThai, MaSach)
-    VALUES (p_MaTheNhap, p_NgayNhap, p_MaNV, p_TongSoLuongNhap, p_TrangThai, p_MaSach);
-
-    COMMIT;
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK;
-        RAISE_APPLICATION_ERROR(-20002, 'Lỗi thêm phiếu nhập: ' || SQLERRM);
-END;
-/
-
-CREATE PROCEDURE CapNhatKhoSach (
-    p_MaSach IN VARCHAR2,
-    p_SoLuongThem IN NUMBER
-)
-IS
-BEGIN
     -- Kiểm tra số lượng thêm dương
-    IF p_SoLuongThem <= 0 THEN
-        RAISE_APPLICATION_ERROR(-20003, 'Số lượng thêm phải lớn hơn 0');
-    END IF;
+    IF @SoLuongThem <= 0
+        BEGIN
+            SET @KetQua = 'Số lượng thêm phải lớn hơn 0';
+            RAISERROR (@KetQua, 16, 1);
+            RETURN;
+        END;
 
     -- Cập nhật hoặc thêm vào Kho_Sach
-    INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
-    VALUES (p_MaSach, p_SoLuongThem, 'ConSach')
-    ON DUPLICATE KEY UPDATE
-        SoLuongHienTai = SoLuongHienTai + p_SoLuongThem,
-        TrangThaiSach = 'ConSach';
+    IF EXISTS (SELECT 1 FROM Kho_Sach WHERE MaSach = @MaSach)
+        BEGIN
+            UPDATE Kho_Sach
+            SET SoLuongHienTai = SoLuongHienTai + @SoLuongThem,
+                TrangThaiSach = 'ConSach'
+            WHERE MaSach = @MaSach;
+        END
+    ELSE
+        BEGIN
+            INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
+            VALUES (@MaSach, @SoLuongThem, 'ConSach');
+        END;
 
-    COMMIT;
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK;
-        RAISE_APPLICATION_ERROR(-20004, 'Lỗi cập nhật kho sách: ' || SQLERRM);
+    SET @KetQua = N'Cập nhật kho sách thành công cho mã ' + @MaSach;
+    PRINT @KetQua;
 END;
-/
+GO
+
+CREATE FUNCTION fn_TongSoLuongNhapTheoSach (@p_MaSach VARCHAR(10))
+RETURNS INT
+AS
+BEGIN
+    DECLARE @TongNhap INT;
+
+    SELECT @TongNhap = COALESCE(SUM(TongSoLuongNhap), 0)
+    FROM The_Nhap
+    WHERE MaSach = @p_MaSach AND TrangThai = 'DaNhap';
+
+    RETURN @TongNhap;
+END;
+GO
