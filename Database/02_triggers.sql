@@ -51,3 +51,29 @@ BEGIN
         SET MESSAGE_TEXT = 'MaSach khong ton tai trong bang Sach';
     END IF;
 END;
+-------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
+CREATE OR ALTER TRIGGER trg_TraSach_Insert
+ON TraSach
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO ThePhat(MaTraSach, SoTienPhat, LyDoPhat, TrangThaiThanhToan, NgayThanhToan)
+    SELECT 
+        i.MaTraSach,
+        dbo.fn_TinhTienPhat(i.NgayTraDuKien, i.NgayTraThucTe, i.ChatLuongSach, ct.MaSach),
+        CASE 
+            WHEN dbo.fn_TinhNgayTreHan(i.NgayTraDuKien, i.NgayTraThucTe) > 0 THEN N'Trễ hạn'
+            WHEN i.ChatLuongSach = 'HuHong' THEN N'Hư hỏng'
+            WHEN i.ChatLuongSach = 'Mat' THEN N'Mất sách'
+            ELSE N'Không phạt'
+        END,
+        'ChuaThanhToan',
+        NULL
+    FROM inserted i
+    JOIN TheMuon tm ON i.MaTheMuon = tm.MaTheMuon
+    JOIN ChiTietTheMuon ct ON tm.MaTheMuon = ct.MaTheMuon
+    WHERE dbo.fn_TinhTienPhat(i.NgayTraDuKien, i.NgayTraThucTe, i.ChatLuongSach, ct.MaSach) > 0;
+END;
+GO
