@@ -31,39 +31,44 @@ GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
 CREATE PROCEDURE sp_CapNhatKhoSach (
-    @MaSach VARCHAR(10),
+    @MaSach INT, 
     @SoLuongThem INT
 )
 AS
 BEGIN
     DECLARE @KetQua VARCHAR(100);
-
-    -- Kiểm tra số lượng thêm dương
     IF @SoLuongThem <= 0
-        BEGIN
-            SET @KetQua = 'Số lượng thêm phải lớn hơn 0';
-            RAISERROR (@KetQua, 16, 1);
-            RETURN;
-        END;
-
-    -- Cập nhật hoặc thêm vào Kho_Sach
+    BEGIN
+        SET @KetQua = 'Số lượng thêm phải lớn hơn 0';
+        RAISERROR (@KetQua, 16, 1);
+        RETURN;
+    END;
+    IF NOT EXISTS (SELECT 1 FROM SACH WHERE MaSach = @MaSach)
+    BEGIN
+        SET @KetQua = 'Mã sách không tồn tại trong bảng SACH';
+        RAISERROR (@KetQua, 16, 1);
+        RETURN;
+    END;
     IF EXISTS (SELECT 1 FROM Kho_Sach WHERE MaSach = @MaSach)
-        BEGIN
-            UPDATE Kho_Sach
-            SET SoLuongHienTai = SoLuongHienTai + @SoLuongThem,
-                TrangThaiSach = 'ConSach'
-            WHERE MaSach = @MaSach;
-        END
+    BEGIN
+        UPDATE Kho_Sach
+        SET SoLuongHienTai = SoLuongHienTai + @SoLuongThem,
+            TrangThaiSach = CASE 
+                WHEN SoLuongHienTai + @SoLuongThem > 0 THEN 'ConSach'
+                ELSE 'HetSach'
+            END
+        WHERE MaSach = @MaSach;
+    END
     ELSE
-        BEGIN
-            INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
-            VALUES (@MaSach, @SoLuongThem, 'ConSach');
-        END;
-
-    SET @KetQua = N'Cập nhật kho sách thành công cho mã ' + @MaSach;
+    BEGIN
+        INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
+        VALUES (@MaSach, @SoLuongThem, 'ConSach');
+    END;
+    SET @KetQua = N'Cập nhật kho sách thành công cho mã ' + CAST(@MaSach AS VARCHAR(10));
     PRINT @KetQua;
 END;
 GO
+
 -------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
 CREATE OR ALTER PROCEDURE sp_TraSach
 (

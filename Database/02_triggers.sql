@@ -27,53 +27,26 @@ END;
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
 CREATE TRIGGER CapNhatKhoSachSauNhap
-AFTER INSERT ON The_Nhap
-FOR EACH ROW
-WHEN (NEW.TrangThai = 'DaNhap')
-BEGIN
-    INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
-    VALUES (NEW.MaSach, NEW.TongSoLuongNhap, 'ConSach')
-    ON DUPLICATE KEY UPDATE 
-        SoLuongHienTai = SoLuongHienTai + NEW.TongSoLuongNhap,
-        TrangThaiSach = 'ConSach';
-END;
-
-CREATE TRIGGER KiemTraNhapHang
-BEFORE INSERT ON The_Nhap
-FOR EACH ROW
-BEGIN
-    IF NEW.TongSoLuongNhap <= 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'TongSoLuongNhap phai la so duong';
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM SACH WHERE MaSach = NEW.MaSach) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'MaSach khong ton tai trong bang Sach';
-    END IF;
-END;
--------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
-CREATE OR ALTER TRIGGER trg_TraSach_Insert
-ON TraSach
+ON The_Nhap
 AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
-
-    INSERT INTO ThePhat(MaTraSach, SoTienPhat, LyDoPhat, TrangThaiThanhToan, NgayThanhToan)
-    SELECT 
-        i.MaTraSach,
-        dbo.fn_TinhTienPhat(i.NgayTraDuKien, i.NgayTraThucTe, i.ChatLuongSach, ct.MaSach),
-        CASE 
-            WHEN dbo.fn_TinhNgayTreHan(i.NgayTraDuKien, i.NgayTraThucTe) > 0 THEN N'Trễ hạn'
-            WHEN i.ChatLuongSach = 'HuHong' THEN N'Hư hỏng'
-            WHEN i.ChatLuongSach = 'Mat' THEN N'Mất sách'
-            ELSE N'Không phạt'
-        END,
-        'ChuaThanhToan',
-        NULL
-    FROM inserted i
-    JOIN TheMuon tm ON i.MaTheMuon = tm.MaTheMuon
-    JOIN ChiTietTheMuon ct ON tm.MaTheMuon = ct.MaTheMuon
-    WHERE dbo.fn_TinhTienPhat(i.NgayTraDuKien, i.NgayTraThucTe, i.ChatLuongSach, ct.MaSach) > 0;
+    IF EXISTS (SELECT 1 FROM inserted WHERE TrangThai = 'DaNhap' AND TongSoLuongNhap > 0)
+    BEGIN
+        MERGE INTO Kho_Sach AS target
+        USING (SELECT MaSach, TongSoLuongNhap FROM inserted WHERE TrangThai = 'DaNhap' AND TongSoLuongNhap > 0) AS source
+        ON target.MaSach = source.MaSach
+        WHEN MATCHED THEN
+            UPDATE SET 
+                SoLuongHienTai = target.SoLuongHienTai + source.TongSoLuongNhap,
+                TrangThaiSach = CASE 
+                    WHEN target.SoLuongHienTai + source.TongSoLuongNhap > 0 THEN 'ConSach' 
+                    ELSE 'HetSach' 
+                END
+        WHEN NOT MATCHED THEN
+            INSERT (MaSach, SoLuongHienTai, TrangThaiSach)
+            VALUES (source.MaSach, source.TongSoLuongNhap, 'ConSach');
+    END;
 END;
-GO
+

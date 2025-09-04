@@ -23,46 +23,37 @@ VALUES
 
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
-INSERT INTO TAC_GIA (MaTacGia, TenTacGia) 
-VALUES
-('TG001', 'Nguyen Van A'),
-('TG002', 'Tran Thi B'),
-('TG003', 'Le Van C');
+INSERT INTO TAC_GIA (TenTacGia) VALUES
+(N'Nguyễn Nhật Ánh'),
+(N'Haruki Murakami'),
+(N'Tố Hữu');
 
-INSERT INTO THE_LOAI (MaTheLoai, TenTheLoai) VALUES
-('TL001', 'Van Hoc'),
-('TL002', 'Khoa Hoc'),
-('TL003', 'Tam Ly');
+INSERT INTO THE_LOAI (TenTheLoai) VALUES
+(N'Tiểu thuyết'),
+(N'Thơ'),
+(N'Trinh thám');
 
-INSERT INTO NHA_XUAT_BAN (MaNXB, TenNXB) VALUES
-('NXB001', 'NXB Giao Duc'),
-('NXB002', 'NXB Kim Dong'),
-('NXB003', 'NXB Tre');
+INSERT INTO NHA_XUAT_BAN (TenNXB) VALUES
+(N'NXB Trẻ'),
+(N'NXB Văn Học'),
+(N'NXB Kim Đồng');
 
-INSERT INTO SACH (MaSach, TenSach, NamXuatBan, MaTacGia, MaTheLoai, MaNXB) VALUES
-('S001', 'Sach Van Hoc 1', 2020, 'TG001', 'TL001', 'NXB001'),
-('S002', 'Sach Khoa Hoc 1', 2021, 'TG002', 'TL002', 'NXB002'),
-('S003', 'Sach Tam Ly 1', 2022, 'TG003', 'TL003', 'NXB003');
+INSERT INTO SACH (TenSach, NamXuatBan, GiaSach, MaNXB, MaTacGia, MaTheLoai) VALUES
+(N'Cho tôi xin một vé đi tuổi thơ', 2008, 75000.00, 1, 1, 1),
+(N'Rừng Na Uy', 1987, 120000.00, 2, 2, 1),
+(N'Từ ấy', 1946, 50000.00, 2, 3, 2);
 
-INSERT INTO The_Nhap (MaTheNhap, NgayNhap, MaNV, TongSoLuongNhap, TrangThai, MaSach) VALUES
-('TN001', '2025-08-01', 'NV001', 100, 'DaNhap', 'S001'),
-('TN002', '2025-08-15', 'NV002', 50, 'ChuaNhap', 'S002'),
-('TN003', '2025-08-30', 'NV003', 75, 'DaNhap', 'S003');
-
-INSERT INTO SangTac (MaTacGia, MaSach) VALUES
-('TG001', 'S001'),
-('TG002', 'S002'),
-('TG003', 'S003');
-
-INSERT INTO XuatBan (MaXuatBan, MaSach) VALUES
-('XB001', 'S001'),
-('XB002', 'S002'),
-('XB003', 'S003');
+INSERT INTO The_Nhap (NgayNhap, MaNV, TongSoLuongNhap, TrangThai, TongTienNhap, MaSach) VALUES
+('2025-09-01', 'NV001', 100, 'DaNhap', 7500000.00, 1),
+('2025-09-02', 'NV002', 50, 'DaNhap', 6000000.00, 2),
+('2025-09-03', 'NV003', 80, 'ChuaNhap', 4000000.00, 3);
 
 INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach) VALUES
-('S001', 50, 'ConSach'),
-('S002', 0, 'HetSach'),
-('S003', 25, 'ConSach');
+(1, 100, 'ConSach'),
+(2, 50, 'ConSach'),
+(3, 0, 'HetSach');
+
+
 
 
 
