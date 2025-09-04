@@ -26,27 +26,62 @@ END;
 
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
-CREATE TRIGGER CapNhatKhoSachSauNhap
+CREATE TRIGGER trg_InsertTacGia
+ON TAC_GIA
+AFTER INSERT
+AS
+BEGIN
+    UPDATE TAC_GIA
+    SET MaTacGia = 'TG' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    FROM TAC_GIA TG
+    INNER JOIN inserted i ON TG.Id = i.Id
+END;
+GO
+
+CREATE TRIGGER trg_InsertTheLoai
+ON THE_LOAI
+AFTER INSERT
+AS
+BEGIN
+    UPDATE THE_LOAI
+    SET MaTheLoai = 'TL' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    FROM THE_LOAI TL
+    INNER JOIN inserted i ON TL.Id = i.Id
+END;
+GO
+
+CREATE TRIGGER trg_InsertNXB
+ON NHA_XUAT_BAN
+AFTER INSERT
+AS
+BEGIN
+    UPDATE NHA_XUAT_BAN
+    SET MaNXB = 'NXB' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    FROM NHA_XUAT_BAN NXB
+    INNER JOIN inserted i ON NXB.Id = i.Id
+END;
+GO
+
+CREATE TRIGGER trg_InsertSach
+ON SACH
+AFTER INSERT
+AS
+BEGIN
+    UPDATE SACH
+    SET MaSach = 'S' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    FROM SACH S
+    INNER JOIN inserted i ON S.Id = i.Id
+END;
+GO
+
+CREATE TRIGGER trg_InsertTheNhap
 ON The_Nhap
 AFTER INSERT
 AS
 BEGIN
-    SET NOCOUNT ON;
-    IF EXISTS (SELECT 1 FROM inserted WHERE TrangThai = 'DaNhap' AND TongSoLuongNhap > 0)
-    BEGIN
-        MERGE INTO Kho_Sach AS target
-        USING (SELECT MaSach, TongSoLuongNhap FROM inserted WHERE TrangThai = 'DaNhap' AND TongSoLuongNhap > 0) AS source
-        ON target.MaSach = source.MaSach
-        WHEN MATCHED THEN
-            UPDATE SET 
-                SoLuongHienTai = target.SoLuongHienTai + source.TongSoLuongNhap,
-                TrangThaiSach = CASE 
-                    WHEN target.SoLuongHienTai + source.TongSoLuongNhap > 0 THEN 'ConSach' 
-                    ELSE 'HetSach' 
-                END
-        WHEN NOT MATCHED THEN
-            INSERT (MaSach, SoLuongHienTai, TrangThaiSach)
-            VALUES (source.MaSach, source.TongSoLuongNhap, 'ConSach');
-    END;
+    UPDATE The_Nhap
+    SET MaTheNhap = 'TN' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    FROM The_Nhap TN
+    INNER JOIN inserted i ON TN.Id = i.Id
 END;
-
+GO
