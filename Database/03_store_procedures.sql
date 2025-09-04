@@ -64,17 +64,3 @@ BEGIN
     PRINT @KetQua;
 END;
 GO
-
-CREATE FUNCTION fn_TongSoLuongNhapTheoSach (@p_MaSach VARCHAR(10))
-RETURNS INT
-AS
-BEGIN
-    DECLARE @TongNhap INT;
-
-    SELECT @TongNhap = COALESCE(SUM(TongSoLuongNhap), 0)
-    FROM The_Nhap
-    WHERE MaSach = @p_MaSach AND TrangThai = 'DaNhap';
-
-    RETURN @TongNhap;
-END;
-GO
