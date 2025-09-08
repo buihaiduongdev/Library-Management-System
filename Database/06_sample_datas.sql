@@ -53,7 +53,19 @@ INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach) VALUES
 (2, 50, 'ConSach'),
 (3, 0, 'HetSach');
 
-
-
+-------------------------- Vu Minh Hieu - Quan ly muon sach --------------------------
+-- Dữ liệu phiếu mượn sách
+INSERT INTO TheMuon (MaDG, IdNV, NgayMuon, NgayHenTra, TrangThai)
+VALUES
+(1, 1, '2025-08-24', '2025-09-07', 'DangMuon'), -- Pham Van D mượn sách
+(2, 2, '2025-08-25', '2025-09-10', 'DangMuon'), -- Nguyen Thi E mượn sách
+(3, 3, '2025-08-26', '2025-09-12', 'DangMuon'); -- Le Thi F mượn sách
+-- Dữ liệu chi tiết phiếu mượn sách
+INSERT INTO ChiTietTheMuon (MaTheMuon, MaSach, SoLuong)
+VALUES
+(1, 'S001', 2),  -- Pham Van D mượn 2 cuốn "Sach Van Hoc 1"
+(1, 'S003', 1),  -- Pham Van D mượn 1 cuốn "Sach Tam Ly 1"
+(2, 'S002', 1),  -- Nguyen Thi E mượn 1 cuốn "Sach Khoa Hoc 1"
+(3, 'S003', 2);  -- Le Thi F mượn 2 cuốn "Sach Tam Ly 1"
 
 
