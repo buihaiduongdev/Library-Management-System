@@ -83,4 +83,43 @@ JOIN TraSach ts ON tp.MaTraSach = ts.MaTraSach
 JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
 JOIN DocGia dg ON tm.MaDG = dg.ID
 GROUP BY dg.ID, dg.HoTen;
+-------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
+CREATE VIEW vw_DanhSachDocGiaDangMuon AS
+SELECT 
+    dg.HoTen AS TenDocGia,
+    dg.SoDienThoai,
+    tm.NgayMuon,
+    tm.NgayHenTra,
+    s.TenSach,
+    ctm.SoLuong AS SoLuongMuon
+FROM 
+    DocGia dg
+JOIN 
+    TheMuon tm ON dg.ID = tm.MaDG
+JOIN 
+    ChiTietTheMuon ctm ON tm.MaTheMuon = ctm.MaTheMuon
+JOIN 
+    Sach s ON ctm.MaSach = s.MaSach
+WHERE 
+    tm.TrangThai = 'DangMuon';
+CREATE VIEW vw_DanhSachSachDangMuon AS
+SELECT
+s.TenSach,
+SUM(ctm.SoLuong) AS SoLuongMuon,
+dg.HoTen AS TenDocGia,
+tm.NgayHenTra
+FROM 
+Sach s
+JOIN 
+ChiTietMuon ctm ON s.MaSach = ctm.MaSach
+JOIN 
+TheMuon tm on ctm.MaTheMuon = tm.MaTheMuon
+JOIN 
+DocGia dg ON tm.MaDG = dg.ID
+WHERE
+tm.TrangThai = 'DangMuon'
+GROUP BY
+s.TenSach, dg.HoTen, tm.NgayHenTra;
+
+
