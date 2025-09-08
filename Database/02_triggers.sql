@@ -84,4 +84,34 @@ BEGIN
     FROM The_Nhap TN
     INNER JOIN inserted i ON TN.Id = i.Id
 END;
+
+-------------------------- Vu Minh Hieu - Quan ly muon sach --------------------------
 GO
+CREATE TRIGGER trg_CapNhatSoLuongSachTrongKho
+ON ChiTietTheMuon
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @MaSach VARCHAR(10);
+    DECLARE @SoLuong INT;
+
+    -- Lấy MaSach và SoLuong từ bản ghi vừa được chèn
+    SELECT @MaSach = MaSach, @SoLuong = SoLuong
+    FROM INSERTED;
+
+    -- Kiểm tra nếu số lượng sách trong kho đủ
+    IF EXISTS (SELECT 1 FROM Kho_Sach WHERE MaSach = @MaSach AND SoLuongHienTai >= @SoLuong)
+    BEGIN
+        -- Cập nhật giảm số lượng sách trong kho
+        UPDATE Kho_Sach
+        SET SoLuongHienTai = SoLuongHienTai - @SoLuong
+        WHERE MaSach = @MaSach;
+    END
+    ELSE
+    BEGIN
+        -- Nếu số lượng sách không đủ, thông báo lỗi và rollback
+        PRINT 'Số lượng sách không đủ để mượn!';
+        ROLLBACK TRANSACTION;
+    END
+END;
+
