@@ -136,4 +136,60 @@ BEGIN
     JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
     WHERE dg.ID = @MaDG AND tp.TrangThaiThanhToan = 'ChuaThanhToan';
 END;
+-------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
+CREATE PROCEDURE sp_BaoCaoMuonTheoDocGia
+@MaDG INT
+AS 
+BEGIN 
+SELECT 
+tm.MaTheMuon,
+tm.NgayMuon,
+tm.NgayHenTra,
+tm.TrangThai AS TinhTrangTra
+FROM 
+TheMuon tm
+WHERE 
+tm.MaDG = @MaDG
+END;
+GO
+CREATE PROCEDURE sp_TopSachMuon
+AS
+BEGIN
+    SELECT 
+        ctm.MaSach, 
+        COUNT(ctm.MaSach) AS SoLanMuon
+    FROM 
+        ChiTietTheMuon ctm
+    GROUP BY 
+        ctm.MaSach
+    ORDER BY 
+        SoLanMuon DESC;
+END;
+GO
+CREATE PROCEDURE sp_KiemTraSachMuon
+@MaDG INT,
+@MaSach VARCHAR(10)
+AS
+BEGIN
+	DECLARE @SoLuongSachHienTai INT;
+	DECLARE @SoLuongMuon INT;--Dung de tru so sach trong kho ra
+	SELECT @SoLuongSachHienTai = SoLuongSachHienTai
+	FROM Kho_Sach
+	WHERE MaSach = @MaSach
+	IF @SoLuongSachHienTai >0 
+	BEGIN
+	IF EXIST (SELECT 1 FROM TheMuon WHERE MaDG = @MaDG AND TrangThai ='DangMuon' AND NgayHenTra <GETDATE())
+	BEGIN
+		PRINT 'Doc Gia co phieu muon qua han!';
+	END
+	ELSE
+	BEGIN
+		PRINT 'Doc Gia co the muon sach nay';
+	END
+END
+ELSE
+BEGIN
+	PRINT 'Sach khong con trong kho de muon!';
+	END
+END;
