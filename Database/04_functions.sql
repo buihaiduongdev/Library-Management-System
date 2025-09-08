@@ -113,4 +113,23 @@ BEGIN
         SET @Tien = @Tien + @GiaSach;
     RETURN @Tien;
 END;
+-------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
+CREATE FUNCTION fn_KiemTraSoLuongSach( @MaSach VARCHAR(10), @SoLuongMuon INT)
+RETURNS INT
+AS
+BEGIN 
+DECLARE @SoLuongHienTai INT;
+SELECT @SoLuongHienTai = SoLuongHienTai
+FROM Kho_Sach
+WHERE MaSach = @MaSach
+IF @SoLuongHienTai >= @SoLuongMuon 
+BEGIN
+	RETURN 1;
+END
+ELSE
+BEGIN
+	RETURN 0;
+END
+END;
+
