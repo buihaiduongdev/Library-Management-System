@@ -38,20 +38,20 @@ INSERT INTO NHA_XUAT_BAN (TenNXB) VALUES
 (N'NXB Văn Học'),
 (N'NXB Kim Đồng');
 
-INSERT INTO SACH (TenSach, NamXuatBan, GiaSach, MaNXB, MaTacGia, MaTheLoai) VALUES
-(N'Cho tôi xin một vé đi tuổi thơ', 2008, 75000.00, 1, 1, 1),
-(N'Rừng Na Uy', 1987, 120000.00, 2, 2, 1),
-(N'Từ ấy', 1946, 50000.00, 2, 3, 2);
+INSERT INTO SACH (TenSach, NamXuatBan, GiaSach, AnhBia, MaNXB, MaTacGia, MaTheLoai) VALUES
+(N'Cho tôi xin một vé đi tuổi thơ', 2008, 75000.00, 'Images/sach001.jpg', 'NXB0001', 'TG0001', 'TL0001'),
+(N'Rừng Na Uy', 1987, 120000.00, 'Images/sach002.jpg', 'NXB0002', 'TG0002', 'TL0001'),
+(N'Từ ấy', 1946, 50000.00, 'Images/sach003.jpg', 'NXB0002', 'TG0003', 'TL0002');
 
-INSERT INTO The_Nhap (NgayNhap, MaNV, TongSoLuongNhap, TrangThai, TongTienNhap, MaSach) VALUES
-('2025-09-01', 'NV001', 100, 'DaNhap', 7500000.00, 1),
-('2025-09-02', 'NV002', 50, 'DaNhap', 6000000.00, 2),
-('2025-09-03', 'NV003', 80, 'ChuaNhap', 4000000.00, 3);
+INSERT INTO The_Nhap (MaNV, NgayNhap, TongSoLuongNhap, TrangThai, TongTienNhap, MaSach) VALUES
+(1, '2025-09-01', 100, 'DaNhap', 7500000.00, 'S0001'),
+(2, '2025-09-02', 50, 'DaNhap', 6000000.00, 'S0002'),
+(3, '2025-09-03', 80, 'ChuaNhap', 4000000.00, 'S0003');
 
 INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach) VALUES
-(1, 100, 'ConSach'),
-(2, 50, 'ConSach'),
-(3, 0, 'HetSach');
+('S0001', 100, 'ConSach'),
+('S0002', 50, 'ConSach'),
+('S0003', 0, 'HetSach');
 
 -------------------------- Vu Minh Hieu - Quan ly muon sach --------------------------
 -- Dữ liệu phiếu mượn sách

@@ -102,6 +102,25 @@ BEGIN
     INNER JOIN inserted i ON TN.Id = i.Id
 END;
 
+CREATE TRIGGER UpdateKhoSach
+ON The_Nhap
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @MaSach VARCHAR(50), @SoLuongThem INT;
+    DECLARE cur CURSOR FOR SELECT MaSach, TongSoLuongNhap FROM inserted;
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @MaSach, @SoLuongThem;
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        EXEC sp_CapNhatKhoSach @MaSach, @SoLuongThem;
+        FETCH NEXT FROM cur INTO @MaSach, @SoLuongThem;
+    END;
+    CLOSE cur;
+    DEALLOCATE cur;
+END;
+GO
+
 -------------------------- Vu Minh Hieu - Quan ly muon sach --------------------------
 GO
 CREATE TRIGGER trg_CapNhatSoLuongSachTrongKho

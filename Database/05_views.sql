@@ -35,39 +35,52 @@ GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 CREATE VIEW ViewDanhSachSach AS
 SELECT 
-  s.MaSach, 
-  s.TenSach, 
-  s.NamXuatBan, 
-  t.TenTacGia, 
-  tl.TenTheLoai, 
-  nxb.TenNXB
+    s.MaSach, 
+    s.TenSach, 
+    s.NamXuatBan, 
+    s.GiaSach, 
+    s.AnhBia, 
+    t.TenTacGia, 
+    tl.TenTheLoai, 
+    nxb.TenNXB,
+    ISNULL(ks.SoLuongHienTai, 0) AS SoLuongHienTai,
+    ISNULL(ks.TrangThaiSach, 'HetSach') AS TrangThaiSach
 FROM SACH s
 JOIN TAC_GIA t ON s.MaTacGia = t.MaTacGia
 JOIN THE_LOAI tl ON s.MaTheLoai = tl.MaTheLoai
-JOIN NHA_XUAT_BAN nxb ON s.MaNXB = nxb.MaNXB;
+JOIN NHA_XUAT_BAN nxb ON s.MaNXB = nxb.MaNXB
+LEFT JOIN Kho_Sach ks ON s.MaSach = ks.MaSach;
 GO
 
 CREATE VIEW ViewDanhSachTheLoai AS
 SELECT 
-  MaTheLoai, 
-  TenTheLoai
-FROM THE_LOAI;
+    tl.MaTheLoai, 
+    tl.TenTheLoai,
+    COUNT(s.MaSach) AS SoLuongSach
+FROM THE_LOAI tl
+LEFT JOIN SACH s ON tl.MaTheLoai = s.MaTheLoai
+GROUP BY tl.MaTheLoai, tl.TenTheLoai;
 GO
 
 CREATE VIEW ViewDanhSachTacGia AS
 SELECT 
-  MaTacGia, 
-  TenTacGia
-FROM TAC_GIA;
+    t.MaTacGia, 
+    t.TenTacGia,
+    COUNT(s.MaSach) AS SoLuongSach
+FROM TAC_GIA t
+LEFT JOIN SACH s ON t.MaTacGia = s.MaTacGia
+GROUP BY t.MaTacGia, t.TenTacGia;
 GO
 
 CREATE VIEW ViewDanhSachNhaXuatBan AS
 SELECT 
-  MaNXB, 
-  TenNXB
-FROM NHA_XUAT_BAN;
+    nxb.MaNXB, 
+    nxb.TenNXB,
+    COUNT(s.MaSach) AS SoLuongSach
+FROM NHA_XUAT_BAN nxb
+LEFT JOIN SACH s ON nxb.MaNXB = s.MaNXB
+GROUP BY nxb.MaNXB, nxb.TenNXB;
 GO
-
 -------------------------- Bui Thanh Tam - Quan Ly Tra Sach ----------------------
 CREATE OR ALTER VIEW vw_TongTienPhat
 AS

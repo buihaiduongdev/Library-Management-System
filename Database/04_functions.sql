@@ -35,7 +35,7 @@ RETURN
 GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
-CREATE FUNCTION fn_KiemTraTrangThaiKhoSach (@p_MaSach INT)
+CREATE FUNCTION fn_KiemTraTrangThaiKhoSach (@p_MaSach VARCHAR(50))
 RETURNS NVARCHAR(100)
 AS
 BEGIN
@@ -44,16 +44,16 @@ BEGIN
     DECLARE @KetQua NVARCHAR(100);
     IF NOT EXISTS (SELECT 1 FROM SACH WHERE MaSach = @p_MaSach)
     BEGIN
-        SET @KetQua = N'Sách ' + CAST(@p_MaSach AS NVARCHAR(10)) + N' không tồn tại trong danh mục sách';
+        SET @KetQua = N'Sách ' + @p_MaSach + N' không tồn tại trong danh mục sách';
         RETURN @KetQua;
     END;
     SELECT @SoLuong = SoLuongHienTai, @TrangThai = TrangThaiSach
     FROM Kho_Sach
     WHERE MaSach = @p_MaSach;
     IF @SoLuong IS NULL
-        SET @KetQua = N'Sách ' + CAST(@p_MaSach AS NVARCHAR(10)) + N' không tồn tại trong kho';
+        SET @KetQua = N'Sách ' + @p_MaSach + N' không tồn tại trong kho';
     ELSE
-        SET @KetQua = N'Sách ' + CAST(@p_MaSach AS NVARCHAR(10)) + N': Số lượng hiện tại = ' + 
+        SET @KetQua = N'Sách ' + @p_MaSach + N': Số lượng hiện tại = ' + 
                        CAST(@SoLuong AS NVARCHAR(10)) + N', Trạng thái = ' + @TrangThai;
     RETURN @KetQua;
 END;
