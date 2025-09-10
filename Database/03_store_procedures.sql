@@ -1,6 +1,40 @@
 ﻿USE QuanLyThuVien;
 GO
 -------------------------- Bui Hai Duong - Quan Ly Doc Gia --------------------------
+CREATE PROCEDURE sp_InsertDocGia
+    @HoTen NVARCHAR(50),
+    @NgaySinh DATE,
+    @DiaChi NVARCHAR(255),
+    @Email VARCHAR(50),
+    @SoDienThoai VARCHAR(20),
+    @NgayDangKy DATE,
+    @NgayHetHan DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO DocGia(HoTen, NgaySinh, DiaChi, Email, SoDienThoai, NgayDangKy, NgayHetHan, TrangThai)
+    VALUES(@HoTen, @NgaySinh, @DiaChi, @Email, @SoDienThoai, @NgayDangKy, @NgayHetHan, 'ConHan');
+END;
+GO
+
+CREATE PROCEDURE sp_InsertNhanVien
+    @MaTK INT = NULL,
+    @HoTen NVARCHAR(50),
+    @NgaySinh DATE,
+    @Email VARCHAR(50),
+    @SoDienThoai VARCHAR(20),
+    @ChucVu NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO NhanVien(MaTK, HoTen, NgaySinh, Email, SoDienThoai, ChucVu)
+    VALUES(@MaTK, @HoTen, @NgaySinh, @Email, @SoDienThoai, @ChucVu);
+END;
+GO
+
+
 CREATE PROCEDURE sp_GiaHanTheDocGia (
     @MaDG VARCHAR(50),
     @SoThangGiaHan INT

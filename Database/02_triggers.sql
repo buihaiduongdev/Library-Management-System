@@ -1,4 +1,4 @@
-USE QuanLyThuVien;
+﻿USE QuanLyThuVien;
 GO
 -------------------------- Bui Hai Duong - Quan Ly Doc Gia --------------------------
 CREATE TRIGGER trg_InsertNV
@@ -23,7 +23,24 @@ BEGIN
 	FROM DocGia DG
 	INNER JOIN inserted i ON DG.Id = i.Id
 END;
+GO
 
+CREATE TRIGGER trg_UpdateTrangThaiDG_TraTre
+ON TraSach
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE DG
+    SET TrangThai = 'TamKhoa'
+    FROM DocGia DG
+    INNER JOIN TheMuon TM ON DG.ID = TM.MaDG
+    INNER JOIN inserted i ON TM.MaTheMuon = i.MaTheMuon
+    WHERE i.NgayTraThucTe IS NOT NULL
+      AND i.NgayTraThucTe > i.NgayTraDuKien;
+END;
+GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
 CREATE TRIGGER trg_InsertTacGia
@@ -114,4 +131,3 @@ BEGIN
         ROLLBACK TRANSACTION;
     END
 END;
-
