@@ -43,7 +43,7 @@ END;
 GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
-CREATE TRIGGER trg_InsertTacGia
+CREATE OR ALTER TRIGGER trg_InsertTacGia
 ON TAC_GIA
 AFTER INSERT
 AS
@@ -51,11 +51,11 @@ BEGIN
     UPDATE TAC_GIA
     SET MaTacGia = 'TG' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
     FROM TAC_GIA TG
-    INNER JOIN inserted i ON TG.Id = i.Id
+    INNER JOIN inserted i ON TG.Id = i.Id;
 END;
 GO
 
-CREATE TRIGGER trg_InsertTheLoai
+CREATE OR ALTER TRIGGER trg_InsertTheLoai
 ON THE_LOAI
 AFTER INSERT
 AS
@@ -63,11 +63,11 @@ BEGIN
     UPDATE THE_LOAI
     SET MaTheLoai = 'TL' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
     FROM THE_LOAI TL
-    INNER JOIN inserted i ON TL.Id = i.Id
+    INNER JOIN inserted i ON TL.Id = i.Id;
 END;
 GO
 
-CREATE TRIGGER trg_InsertNXB
+CREATE OR ALTER TRIGGER trg_InsertNXB
 ON NHA_XUAT_BAN
 AFTER INSERT
 AS
@@ -75,11 +75,11 @@ BEGIN
     UPDATE NHA_XUAT_BAN
     SET MaNXB = 'NXB' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
     FROM NHA_XUAT_BAN NXB
-    INNER JOIN inserted i ON NXB.Id = i.Id
+    INNER JOIN inserted i ON NXB.Id = i.Id;
 END;
 GO
 
-CREATE TRIGGER trg_InsertSach
+CREATE OR ALTER TRIGGER trg_InsertSach
 ON SACH
 AFTER INSERT
 AS
@@ -87,11 +87,11 @@ BEGIN
     UPDATE SACH
     SET MaSach = 'S' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
     FROM SACH S
-    INNER JOIN inserted i ON S.Id = i.Id
+    INNER JOIN inserted i ON S.Id = i.Id;
 END;
 GO
 
-CREATE TRIGGER trg_InsertTheNhap
+CREATE OR ALTER TRIGGER trg_InsertTheNhap
 ON The_Nhap
 AFTER INSERT
 AS
@@ -99,16 +99,17 @@ BEGIN
     UPDATE The_Nhap
     SET MaTheNhap = 'TN' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
     FROM The_Nhap TN
-    INNER JOIN inserted i ON TN.Id = i.Id
+    INNER JOIN inserted i ON TN.Id = i.Id;
 END;
+GO
 
-CREATE TRIGGER UpdateKhoSach
+CREATE OR ALTER TRIGGER UpdateKhoSach
 ON The_Nhap
 AFTER INSERT
 AS
 BEGIN
     DECLARE @MaSach VARCHAR(50), @SoLuongThem INT;
-    DECLARE cur CURSOR FOR SELECT MaSach, TongSoLuongNhap FROM inserted;
+    DECLARE cur CURSOR FOR SELECT MaSach, TongSoLuongNhap FROM inserted WHERE TrangThai = 'DaNhap';  -- Thêm WHERE để chỉ DaNhap
     OPEN cur;
     FETCH NEXT FROM cur INTO @MaSach, @SoLuongThem;
     WHILE @@FETCH_STATUS = 0
