@@ -161,6 +161,47 @@ BEGIN
     JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
     WHERE dg.ID = @MaDG AND tp.TrangThaiThanhToan = 'ChuaThanhToan';
 END;
+
+CREATE OR ALTER PROCEDURE sp_ThongKeTraTre
+AS
+BEGIN
+    SELECT dg.HoTen, tm.MaTheMuon, ts.NgayTraDuKien, ts.NgayTraThucTe,
+           DATEDIFF(DAY, ts.NgayTraDuKien, ts.NgayTraThucTe) AS SoNgayTre
+    FROM DocGia dg
+    JOIN TheMuon tm ON dg.ID = tm.MaDG
+    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
+    WHERE ts.NgayTraThucTe > ts.NgayTraDuKien;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE sp_BaoCaoTienPhatTheoThang
+    @Nam INT, @Thang INT
+AS
+BEGIN
+    SELECT 
+        SUM(tp.SoTienPhat) AS TongTienPhat,
+        COUNT(tp.MaPhat) AS SoLuotPhat
+    FROM ThePhat tp
+    WHERE MONTH(tp.NgayThanhToan) = @Thang
+      AND YEAR(tp.NgayThanhToan) = @Nam;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE sp_XemLichSuTraSach @MaDG INT
+AS
+BEGIN
+    SELECT s.TenSach, ts.NgayTraThucTe, ts.ChatLuongSach, tp.SoTienPhat, tp.TrangThaiThanhToan
+    FROM DocGia dg
+    JOIN TheMuon tm ON dg.ID = tm.MaDG
+    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
+    LEFT JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
+    JOIN ChiTietTheMuon ctm ON tm.MaTheMuon = ctm.MaTheMuon
+    JOIN Sach s ON ctm.MaSach = s.MaSach
+    WHERE dg.ID = @MaDG
+    ORDER BY ts.NgayTraThucTe DESC;
+END;
+GO
+
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
 CREATE PROCEDURE sp_BaoCaoMuonTheoDocGia
