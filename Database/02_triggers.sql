@@ -177,3 +177,29 @@ BEGIN
     DEALLOCATE cur;
 END;
 GO
+
+CREATE OR ALTER TRIGGER trg_TaoPhatKhiTra
+ON TraSach
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO ThePhat(MaTraSach, SoTienPhat, LyDoPhat, TrangThaiThanhToan)
+    SELECT 
+        i.MaTraSach,
+        dbo.fn_TinhTienPhat(i.NgayTraDuKien, i.NgayTraThucTe, i.ChatLuongSach, ctm.MaSach),
+        CASE 
+            WHEN i.NgayTraThucTe > i.NgayTraDuKien THEN N'Trả trễ'
+            WHEN i.ChatLuongSach = 'HuHong' THEN N'Hư hỏng sách'
+            WHEN i.ChatLuongSach = 'Mat' THEN N'Mất sách'
+            ELSE N'Không phạt'
+        END,
+        CASE 
+            WHEN (dbo.fn_TinhTienPhat(i.NgayTraDuKien, i.NgayTraThucTe, i.ChatLuongSach, ctm.MaSach)) > 0 
+            THEN 'ChuaThanhToan'
+            ELSE 'MienPhi'
+        END
+    FROM inserted i
+    JOIN ChiTietTheMuon ctm ON i.MaTheMuon = ctm.MaTheMuon;
+END;
+GO
+
