@@ -151,3 +151,29 @@ BEGIN
         ROLLBACK TRANSACTION;
     END
 END;
+
+------- Bui Thanh Tam - Quan ly tra sach------
+CREATE OR ALTER TRIGGER trg_CapNhatKhoKhiTraSach
+ON TraSach
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @MaTheMuon INT, @MaSach VARCHAR(10), @SoLuong INT;
+    DECLARE cur CURSOR FOR
+        SELECT i.MaTheMuon, ctm.MaSach, ctm.SoLuong
+        FROM inserted i
+        JOIN ChiTietTheMuon ctm ON i.MaTheMuon = ctm.MaTheMuon;
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @MaTheMuon, @MaSach, @SoLuong;
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        UPDATE Kho_Sach
+        SET SoLuongHienTai = SoLuongHienTai + @SoLuong,
+            TrangThaiSach = 'ConSach'
+        WHERE MaSach = @MaSach;
+        FETCH NEXT FROM cur INTO @MaTheMuon, @MaSach, @SoLuong;
+    END;
+    CLOSE cur;
+    DEALLOCATE cur;
+END;
+GO
