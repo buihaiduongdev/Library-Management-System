@@ -203,3 +203,26 @@ BEGIN
 END;
 GO
 
+CREATE OR ALTER TRIGGER trg_MoKhoaDocGiaKhiThanhToan
+ON ThePhat
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(TrangThaiThanhToan)
+    BEGIN
+        UPDATE DG
+        SET TrangThai = 'ConHan'
+        FROM DocGia DG
+        WHERE DG.ID IN (
+            SELECT tm.MaDG
+            FROM inserted i
+            JOIN TraSach ts ON i.MaTraSach = ts.MaTraSach
+            JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
+            GROUP BY tm.MaDG
+            HAVING SUM(CASE WHEN i.TrangThaiThanhToan = 'ChuaThanhToan' THEN 1 ELSE 0 END) = 0
+        );
+    END
+END;
+GO
+
+
