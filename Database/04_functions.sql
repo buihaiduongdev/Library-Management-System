@@ -93,7 +93,7 @@ BEGIN
     DECLARE @SoNgayTre INT = dbo.fn_TinhNgayTreHan(@NgayTraDuKien, @NgayTraThucTe);
     DECLARE @GiaSach DECIMAL(10,2);
 
-    SELECT @GiaSach = Gia FROM Sach WHERE MaSach = @MaSach;
+    SELECT @GiaSach = GiaSach FROM Sach WHERE MaSach = @MaSach;
 
     -- Phạt trễ hạn
     IF @SoNgayTre > 0
