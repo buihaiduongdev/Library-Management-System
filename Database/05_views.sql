@@ -96,6 +96,30 @@ JOIN TraSach ts ON tp.MaTraSach = ts.MaTraSach
 JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
 JOIN DocGia dg ON tm.MaDG = dg.ID
 GROUP BY dg.ID, dg.HoTen;
+
+
+CREATE OR ALTER VIEW vw_SachChuaTra
+AS
+SELECT 
+    tm.MaTheMuon,
+    dg.ID AS MaDG,
+    dg.HoTen AS TenDocGia,
+    s.MaSach,
+    s.TenSach,
+    ctm.SoLuong AS SoLuongMuon,
+    ISNULL(SUM(ctts.SoLuongTra), 0) AS SoLuongDaTra,
+    ctm.SoLuong - ISNULL(SUM(ctts.SoLuongTra), 0) AS SoLuongConLai,
+    tm.NgayMuon,
+    tm.NgayHenTra
+FROM TheMuon tm
+JOIN DocGia dg ON tm.MaDG = dg.ID
+JOIN ChiTietTheMuon ctm ON tm.MaTheMuon = ctm.MaTheMuon
+JOIN Sach s ON ctm.MaSach = s.MaSach
+LEFT JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
+LEFT JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach AND ctm.MaSach = ctts.MaSach
+WHERE tm.TrangThai = 'DangMuon'
+GROUP BY tm.MaTheMuon, dg.ID, dg.HoTen, s.MaSach, s.TenSach, ctm.SoLuong, tm.NgayMuon, tm.NgayHenTra;
+
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
 CREATE VIEW vw_DanhSachDocGiaDangMuon AS
