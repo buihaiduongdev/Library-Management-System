@@ -150,69 +150,7 @@ BEGIN
 END;
 
 ------- Bui Thanh Tam - Quan ly tra sach------
-CREATE OR ALTER PROCEDURE sp_TraTungSach
-(
-    @MaTheMuon INT,
-    @IdNV INT,
-    @MaSach VARCHAR(50),
-    @SoLuongTra INT,
-    @NgayTra DATE,
-    @ChatLuongSach VARCHAR(20),
-    @GhiChu NVARCHAR(255) = NULL
-)
-AS
-BEGIN
-    SET NOCOUNT ON;
 
-    DECLARE @MaTraSach INT, @NgayHenTra DATE;
-
-    SELECT @NgayHenTra = NgayHenTra FROM TheMuon WHERE MaTheMuon = @MaTheMuon;
-
-    -- Nếu chưa có phiếu trả thì tạo mới
-    SELECT @MaTraSach = MaTraSach FROM TraSach WHERE MaTheMuon = @MaTheMuon;
-    IF @MaTraSach IS NULL
-    BEGIN
-        INSERT INTO TraSach(MaTheMuon, IdNV, NgayTra, GhiChu, DaThongBao)
-        VALUES(@MaTheMuon, @IdNV, @NgayTra, @GhiChu, 0);
-        SET @MaTraSach = SCOPE_IDENTITY();
-    END
-
-    -- Ghi chi tiết trả
-    INSERT INTO ChiTietTraSach(MaTraSach, MaSach, SoLuongTra, ChatLuongSach)
-    VALUES(@MaTraSach, @MaSach, @SoLuongTra, @ChatLuongSach);
-
-    -- Cập nhật kho
-    UPDATE Kho_Sach
-    SET SoLuongHienTai = SoLuongHienTai + @SoLuongTra,
-        TrangThaiSach = 'ConSach'
-    WHERE MaSach = @MaSach;
-
-    -- Tính phạt
-    DECLARE @TienPhat DECIMAL(10,2) = dbo.fn_TinhTienPhat(@NgayHenTra, @NgayTra, @ChatLuongSach, @MaSach);
-    IF @TienPhat > 0
-    BEGIN
-        INSERT INTO ThePhat(MaTraSach, MaSach, SoTienPhat, LyDoPhat, TrangThaiThanhToan)
-        VALUES(@MaTraSach, @MaSach, @TienPhat, N'Phạt khi trả sách', 'ChuaThanhToan');
-    END;
-
-    -- Nếu tất cả sách đã trả đủ → update phiếu mượn = DaTra
-    IF NOT EXISTS (
-        SELECT 1
-        FROM ChiTietTheMuon ctm
-        WHERE ctm.MaTheMuon = @MaTheMuon
-          AND NOT EXISTS (
-              SELECT 1
-              FROM ChiTietTraSach ctts
-              JOIN TraSach ts ON ctts.MaTraSach = ts.MaTraSach
-              WHERE ts.MaTheMuon = @MaTheMuon
-                AND ctts.MaSach = ctm.MaSach
-                AND ctts.SoLuongTra >= ctm.SoLuong
-          )
-    )
-    BEGIN
-        UPDATE TheMuon SET TrangThai = 'DaTra' WHERE MaTheMuon = @MaTheMuon;
-    END
-END;
 
 
 CREATE OR ALTER TRIGGER trg_MoKhoaDocGiaKhiThanhToan
