@@ -118,7 +118,7 @@ CREATE TABLE TheMuon (
 -- Bảng chi tiết phiếu mượn (một phiếu mượn có nhiều sách)
 CREATE TABLE ChiTietTheMuon (
     MaTheMuon INT NOT NULL,
-    MaSach VARCHAR(10) NOT NULL,
+    MaSach VARCHAR(50) NOT NULL,
     SoLuong INT DEFAULT 1 CHECK (SoLuong > 0),
     PRIMARY KEY (MaTheMuon, MaSach),
     FOREIGN KEY (MaTheMuon) REFERENCES TheMuon(MaTheMuon)
