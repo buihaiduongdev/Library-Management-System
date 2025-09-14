@@ -1,7 +1,7 @@
 ﻿USE QuanLyThuVien;
 GO
 -------------------------- Bui Hai Duong - Quan Ly Doc Gia --------------------------
-CREATE TRIGGER trg_InsertNV
+CREATE OR ALTER TRIGGER trg_InsertNV
 ON NhanVien
 AFTER INSERT
 AS
@@ -13,7 +13,7 @@ BEGIN
 END;
 GO
 
-CREATE TRIGGER trg_InsertDG
+CREATE OR ALTER TRIGGER trg_InsertDG
 ON DocGia
 AFTER INSERT
 AS
@@ -25,20 +25,17 @@ BEGIN
 END;
 GO
 
-CREATE TRIGGER trg_UpdateTrangThaiDG_TraTre
+CREATE OR ALTER TRIGGER trg_UpdateTrangThaiDG_TraTre
 ON TraSach
 AFTER INSERT, UPDATE
 AS
 BEGIN
-    SET NOCOUNT ON;
-
     UPDATE DG
     SET TrangThai = 'TamKhoa'
     FROM DocGia DG
     INNER JOIN TheMuon TM ON DG.ID = TM.MaDG
     INNER JOIN inserted i ON TM.MaTheMuon = i.MaTheMuon
-    WHERE i.NgayTraThucTe IS NOT NULL
-      AND i.NgayTraThucTe > i.NgayTraDuKien;
+    WHERE i.NgayTra > TM.NgayHenTra;
 END;
 GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
@@ -49,7 +46,7 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE TAC_GIA
-    SET MaTacGia = 'TG' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    SET MaTacGia = 'TG' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
     FROM TAC_GIA TG
     INNER JOIN inserted i ON TG.Id = i.Id;
 END;
@@ -61,7 +58,7 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE THE_LOAI
-    SET MaTheLoai = 'TL' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    SET MaTheLoai = 'TL' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
     FROM THE_LOAI TL
     INNER JOIN inserted i ON TL.Id = i.Id;
 END;
@@ -73,7 +70,7 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE NHA_XUAT_BAN
-    SET MaNXB = 'NXB' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    SET MaNXB = 'NXB' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
     FROM NHA_XUAT_BAN NXB
     INNER JOIN inserted i ON NXB.Id = i.Id;
 END;
@@ -85,7 +82,7 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE SACH
-    SET MaSach = 'S' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    SET MaSach = 'S' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
     FROM SACH S
     INNER JOIN inserted i ON S.Id = i.Id;
 END;
@@ -97,7 +94,7 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE The_Nhap
-    SET MaTheNhap = 'TN' + RIGHT('0000' + CAST(i.Id AS VARCHAR(4)), 4)
+    SET MaTheNhap = 'TN' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
     FROM The_Nhap TN
     INNER JOIN inserted i ON TN.Id = i.Id;
 END;

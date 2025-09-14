@@ -62,14 +62,14 @@ INSERT INTO NHA_XUAT_BAN (MaNXB, TenNXB) VALUES
 
 INSERT INTO SACH (MaSach, TenSach, NamXuatBan, GiaSach, AnhBia, MaNXB, MaTacGia, MaTheLoai) VALUES
 ('S001', N'Truyện Kiều', 1995, 150000, 'image1.jpg', 'NXB001', 'TG001', 'TL003'),
-('S002', N'Nhật ký trong tù', 2000, 120000, 'image2.jpg', 'NXB002', 'TG002', 'TL004'),
-('S003', N'Chí Phèo', 2010, 200000, 'image3.jpg', 'NXB003', 'TG003', 'TL006'),
-('S004', N'Thơ thơ', 2015, 180000, 'image4.jpg', 'NXB004', 'TG004', 'TL003'),
-('S005', N'Nỗi buồn chiến tranh', 2018, 250000, 'image5.jpg', 'NXB005', 'TG005', 'TL004'),
-('S006', N'Dế mèn phiêu lưu ký', 2016, 210000, 'image6.jpg', 'NXB006', 'TG006', 'TL003'),
+('S002', N'Nhật ký trong tù', 2000, 120000, 'image2.jpg', 'NXB004', 'TG002', 'TL004'),
+('S003', N'Chí Phèo', 2010, 200000, 'image3.jpg', 'NXB007', 'TG003', 'TL006'),
+('S004', N'Thơ thơ', 2015, 180000, 'image4.jpg', 'NXB010', 'TG004', 'TL003'),
+('S005', N'Nỗi buồn chiến tranh', 2018, 250000, 'image5.jpg', 'NXB010', 'TG005', 'TL004'),
+('S006', N'Dế mèn phiêu lưu ký', 2016, 210000, 'image6.jpg', 'NXB010', 'TG006', 'TL003'),
 ('S007', N'Bạn đến chơi nhà', 2017, 160000, 'image7.jpg', 'NXB007', 'TG007', 'TL003'),
-('S008', N'Số đỏ', 2008, 130000, 'image8.jpg', 'NXB008', 'TG008', 'TL006'),
-('S009', N'Hà Nội băm sáu phố phường', 2005, 175000, 'image9.jpg', 'NXB009', 'TG009', 'TL003'),
+('S008', N'Số đỏ', 2008, 130000, 'image8.jpg', 'NXB010', 'TG008', 'TL006'),
+('S009', N'Hà Nội băm sáu phố phường', 2005, 175000, 'image9.jpg', 'NXB010', 'TG009', 'TL003'),
 ('S010', N'Tắt đèn', 2002, 95000, 'image10.jpg', 'NXB010', 'TG010', 'TL006');
 GO
 

@@ -1,3 +1,5 @@
+CREATE DATABASE QuanLyThuVien;
+GO
 USE QuanLyThuVien;
 
 IF OBJECT_ID('ThePhat', 'U') IS NOT NULL DROP TABLE ThePhat;
