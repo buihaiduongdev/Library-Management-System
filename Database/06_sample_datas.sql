@@ -1,77 +1,77 @@
 USE QuanLyThuVien;
 GO
--------------------------- TAI KHOAN --------------------------
+
+-------------------------- TAI KHOAN, ADMIN, NHANVIEN (EXPANDED) --------------------------
+
+-- Bổ sung thêm tài khoản cho đủ 10 nhân viên
 INSERT INTO TaiKhoan (TenDangNhap, MatKhauMaHoa, VaiTro, TrangThai)
 VALUES
-('admin', '21232f297a57a5a743894a0e4a801fc3', 0, 1), -- mk: admin
-('thuthu', 'e10adc3949ba59abbe56e057f20f883e', 1, 1), -- mk: 123456
-('nvpart', 'e10adc3949ba59abbe56e057f20f883e', 1, 1); -- mk: 123456
+('admin', '21232f297a57a5a743894a0e4a801fc3', 0, 1),    -- MaTK = 1
+('thuthu1', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 2 (cho NV 1)
+('nvpart1', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 3 (cho NV 2)
+('nvfull1', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 4 (cho NV 3)
+('nvfull2', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 5 (cho NV 4)
+('nvpart2', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 6 (cho NV 5)
+('thuthu2', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 7 (cho NV 6)
+('nvpart3', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 8 (cho NV 7)
+('nvfull3', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),   -- MaTK = 9 (cho NV 8)
+('nvpart4', 'e10adc3949ba59abbe56e057f20f883e', 1, 1);   -- MaTK = 10 (cho NV 9)
+GO
 
 INSERT INTO [Admin] (MaTK, HoTen, NgaySinh, Email, SoDienThoai)
-VALUES (1, N'Nguyễn Văn A', '1985-05-20', 'admin01@lms.com', '0905123456');
+VALUES (1, N'Nguyễn Văn Admin', '1985-05-20', 'admin01@lms.com', '0905123456');
+GO
 
 INSERT INTO NhanVien (MaTK, HoTen, NgaySinh, Email, SoDienThoai, ChucVu)
 VALUES
-(2, N'Trần Thị B', '1992-03-20', 'ttb@gmail.com', '0987654321', 'ThuThu'),
-(3, N'Lê Văn C',  '1995-07-10', 'lvc@gmail.com', '0912345678', 'NhanVienPartTime');
+(2, N'Trần Thị B', '1992-03-20', 'ttb@gmail.com', '0987654321', 'ThuThu'),                      -- IdNV = 1
+(3, N'Lê Văn C',  '1995-07-10', 'lvc@gmail.com', '0912345678', 'NhanVienPartTime'),             -- IdNV = 2
+(4, N'Bùi Văn D', '1998-01-01', 'bvd@gmail.com', '0911111111', 'NhanVienFullTime'),             -- IdNV = 3
+(5, N'Phan Thị E', '1999-02-02', 'pte@gmail.com', '0922222222', 'NhanVienFullTime'),             -- IdNV = 4
+(6, N'Vũ Minh F', '2000-03-03', 'vmf@gmail.com', '0933333333', 'NhanVienPartTime'),             -- IdNV = 5
+(7, N'Bùi Thanh G', '2001-04-04', 'btg@gmail.com', '0944444444', 'ThuThu'),                      -- IdNV = 6
+(8, N'Nguyễn Thị H', '2002-05-05', 'nth@gmail.com', '0955555555', 'NhanVienPartTime'),           -- IdNV = 7
+(9, N'Trần Văn I', '2003-06-06', 'tvi@gmail.com', '0966666666', 'NhanVienFullTime'),             -- IdNV = 8
+(10, N'Lê Thị K', '2004-07-07', 'ltk@gmail.com', '0977777777', 'NhanVienPartTime')            -- IdNV = 9
+GO
 
+-------------------------- DOC GIA --------------------------
 INSERT INTO DocGia (HoTen, NgaySinh, DiaChi, Email, SoDienThoai, NgayDangKy, NgayHetHan, TrangThai)
 VALUES
-('Pham Van D', '2000-05-01', '123 Duong A', 'pvd@gmail.com', '0911222333', '2025-08-23', '2026-08-23', 'ConHan'),
-('Nguyen Thi E', '1998-09-12', '456 Duong B', 'nte@gmail.com', '0922333444', '2025-08-23', '2026-08-23', 'ConHan'),
-('Le Thi F', '1999-12-25', '789 Duong C', 'ltf@gmail.com', '0933444555', '2025-08-23', '2026-08-23', 'ConHan');
+(N'Phạm Văn D', '2000-05-01', '123 Duong A', 'pvd@gmail.com', '0911222333', '2025-08-23', '2026-08-23', 'ConHan'),
+(N'Nguyễn Thị E', '1998-09-12', '456 Duong B', 'nte@gmail.com', '0922333444', '2025-08-23', '2026-08-23', 'ConHan'),
+(N'Lê Thị F', '1999-12-25', '789 Duong C', 'ltf@gmail.com', '0933444555', '2025-08-23', '2026-08-23', 'ConHan');
+GO
 
--------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
-
+-------------------------- QUAN LY SACH (Phan Ngoc Duy) --------------------------
 INSERT INTO TAC_GIA (MaTacGia, TenTacGia) VALUES
-('TG001', 'Nguyen Du'),
-('TG002', 'Ho Chi Minh'),
-('TG003', 'Nam Cao'),
-('TG004', 'Xuan Dieu'),
-('TG005', 'Bao Ninh'),
-('TG006', 'To Hoai'),
-('TG007', 'Nguyen Khuyen'),
-('TG008', 'Vu Trinh'),
-('TG009', 'Tao Quan'),
-('TG010', 'Ngo Tat To');
+('TG001', N'Nguyễn Du'), ('TG002', N'Hồ Chí Minh'), ('TG003', N'Nam Cao'), ('TG004', N'Xuân Diệu'),
+('TG005', N'Bảo Ninh'), ('TG006', N'Tô Hoài'), ('TG007', N'Nguyễn Khuyến'), ('TG008', N'Vũ Trọng Phụng'),
+('TG009', N'Thạch Lam'), ('TG010', N'Ngô Tất Tố');
 
 INSERT INTO THE_LOAI (MaTheLoai, TenTheLoai) VALUES
-('TL001', 'Kinh Te'),
-('TL002', 'Chinh Tri'),
-('TL003', 'Văn Học'),
-('TL004', 'Lich Su'),
-('TL005', 'Khoa Hoc'),
-('TL006', 'Tiểu Thuyết'),
-('TL007', 'Trinh Thám'),
-('TL008', 'Giáo Dục'),
-('TL009', 'Tâm Lý'),
-('TL010', 'Tôn Giáo');
+('TL001', N'Kinh Tế'), ('TL002', N'Chính Trị'), ('TL003', N'Văn Học'), ('TL004', N'Lịch Sử'),
+('TL005', N'Khoa Học'), ('TL006', N'Tiểu Thuyết'), ('TL007', N'Trinh Thám'), ('TL008', N'Giáo Dục'),
+('TL009', N'Tâm Lý'), ('TL010', N'Tôn Giáo');
 
 INSERT INTO NHA_XUAT_BAN (MaNXB, TenNXB) VALUES
-('NXB001', 'Nha Xuat Ban Tre'),
-('NXB002', 'Nha Xuat Ban Giao Duc'),
-('NXB003', 'Nha Xuat Ban Kim Dong'),
-('NXB004', 'Nha Xuat Ban Thanh Hoa'),
-('NXB005', 'Nha Xuat Ban Van Hoa'),
-('NXB006', 'Nha Xuat Ban Ha Noi'),
-('NXB007', 'Nha Xuat Ban Dong A'),
-('NXB008', 'Nha Xuat Ban Lao Dong'),
-('NXB009', 'Nha Xuat Ban Tuan Anh'),
-('NXB010', 'Nha Xuat Ban Tan Viet');
-
+('NXB001', N'Nhà Xuất Bản Trẻ'), ('NXB002', N'Nhà Xuất Bản Giáo Dục'), ('NXB003', N'Nhà Xuất Bản Kim Đồng'),
+('NXB004', N'Nhà Xuất Bản Văn Học'), ('NXB005', N'Nhà Xuất Bản Hội Nhà Văn'), ('NXB006', N'Nhà Xuất Bản Hà Nội'),
+('NXB007', N'Nhà Xuất Bản Đông Á'), ('NXB008', N'Nhà Xuất Bản Lao Động'), ('NXB009', N'Nhà Xuất Bản Phụ Nữ'),
+('NXB010', N'Nhà Xuất Bản Tư Pháp');
 
 INSERT INTO SACH (MaSach, TenSach, NamXuatBan, GiaSach, AnhBia, MaNXB, MaTacGia, MaTheLoai) VALUES
-('S001', 'Truyen Kieu', 1995, 150000, 'image1.jpg', 'NXB001', 'TG001', 'TL003'),
-('S002', 'Dien Bien Phu', 2000, 120000, 'image2.jpg', 'NXB002', 'TG002', 'TL004'),
-('S003', 'Cuoc Chien Gioi', 2010, 200000, 'image3.jpg', 'NXB003', 'TG003', 'TL005'),
-('S004', 'Mau Tu', 2015, 180000, 'image4.jpg', 'NXB004', 'TG004', 'TL003'),
-('S005', 'Chien Tranh Viet Nam', 2018, 250000, 'image5.jpg', 'NXB005', 'TG005', 'TL004'),
-('S006', 'Vuong Quoc Hoa Lan', 2016, 210000, 'image6.jpg', 'NXB006', 'TG006', 'TL003'),
-('S007', 'Cuoc Dong Cua Con Cua', 2017, 160000, 'image7.jpg', 'NXB007', 'TG007', 'TL006'),
-('S008', 'Gia Bao', 2008, 130000, 'image8.jpg', 'NXB008', 'TG008', 'TL005'),
-('S009', 'Con Đường Đến Tương Lai', 2005, 175000, 'image9.jpg', 'NXB009', 'TG009', 'TL007'),
-('S010', 'Viet Nam Cuoi Tuan', 2002, 95000, 'image10.jpg', 'NXB010', 'TG010', 'TL009');
-
+('S001', N'Truyện Kiều', 1995, 150000, 'image1.jpg', 'NXB001', 'TG001', 'TL003'),
+('S002', N'Nhật ký trong tù', 2000, 120000, 'image2.jpg', 'NXB002', 'TG002', 'TL004'),
+('S003', N'Chí Phèo', 2010, 200000, 'image3.jpg', 'NXB003', 'TG003', 'TL006'),
+('S004', N'Thơ thơ', 2015, 180000, 'image4.jpg', 'NXB004', 'TG004', 'TL003'),
+('S005', N'Nỗi buồn chiến tranh', 2018, 250000, 'image5.jpg', 'NXB005', 'TG005', 'TL004'),
+('S006', N'Dế mèn phiêu lưu ký', 2016, 210000, 'image6.jpg', 'NXB006', 'TG006', 'TL003'),
+('S007', N'Bạn đến chơi nhà', 2017, 160000, 'image7.jpg', 'NXB007', 'TG007', 'TL003'),
+('S008', N'Số đỏ', 2008, 130000, 'image8.jpg', 'NXB008', 'TG008', 'TL006'),
+('S009', N'Hà Nội băm sáu phố phường', 2005, 175000, 'image9.jpg', 'NXB009', 'TG009', 'TL003'),
+('S010', N'Tắt đèn', 2002, 95000, 'image10.jpg', 'NXB010', 'TG010', 'TL006');
+GO
 
 INSERT INTO The_Nhap (MaTheNhap, MaNV, NgayNhap, TongSoLuongNhap, TrangThai, TongTienNhap, GiaNhap, MaSach) VALUES
 ('TN001', 1, '2022-01-15', 100, 'DaNhap', 1500000, 15000, 'S001'),
@@ -82,36 +82,27 @@ INSERT INTO The_Nhap (MaTheNhap, MaNV, NgayNhap, TongSoLuongNhap, TrangThai, Ton
 ('TN006', 6, '2022-03-15', 110, 'DaNhap', 1650000, 15000, 'S006'),
 ('TN007', 7, '2022-04-18', 140, 'ChuaNhap', 2100000, 15000, 'S007'),
 ('TN008', 8, '2022-04-25', 130, 'DaNhap', 1950000, 15000, 'S008'),
-('TN009', 9, '2022-05-10', 80, 'ChuaNhap', 1200000, 15000, 'S009'),
-('TN010', 10, '2022-05-22', 160, 'DaNhap', 2400000, 15000, 'S010');
-
+('TN009', 9, '2022-05-10', 80, 'ChuaNhap', 1200000, 15000, 'S009')
+GO
 
 INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach) VALUES
-('S001', 50, 'ConSach'),
-('S002', 30, 'ConSach'),
-('S003', 20, 'ConSach'),
-('S004', 10, 'HetSach'),
-('S005', 0, 'HetSach'),
-('S006', 25, 'ConSach'),
-('S007', 35, 'ConSach'),
-('S008', 10, 'HetSach'),
-('S009', 40, 'ConSach'),
-('S010', 15, 'ConSach');
+('S001', 50, 'ConSach'), ('S002', 30, 'ConSach'), ('S003', 20, 'ConSach'), ('S004', 10, 'ConSach'),
+('S005', 0, 'HetSach'), ('S006', 25, 'ConSach'), ('S007', 35, 'ConSach'), ('S008', 10, 'ConSach'),
+('S009', 40, 'ConSach'), ('S010', 15, 'ConSach');
+GO
 
-
--------------------------- Vu Minh Hieu - Quan ly muon sach --------------------------
--- Dữ liệu phiếu mượn sách
+-------------------------- QUAN LY MUON SACH (Vu Minh Hieu) --------------------------
 INSERT INTO TheMuon (MaDG, IdNV, NgayMuon, NgayHenTra, TrangThai)
 VALUES
-(1, 1, '2025-08-24', '2025-09-07', 'DangMuon'), -- Pham Van D mượn sách
-(2, 2, '2025-08-25', '2025-09-10', 'DangMuon'), -- Nguyen Thi E mượn sách
-(3, 3, '2025-08-26', '2025-09-12', 'DangMuon'); -- Le Thi F mượn sách
--- Dữ liệu chi tiết phiếu mượn sách
+(1, 1, '2025-08-24', '2025-09-07', 'DangMuon'), -- MaTheMuon sẽ là 1
+(2, 2, '2025-08-25', '2025-09-10', 'DangMuon'), -- MaTheMuon sẽ là 2
+(3, 3, '2025-08-26', '2025-09-12', 'DangMuon'); -- MaTheMuon sẽ là 3
+GO
+
 INSERT INTO ChiTietTheMuon (MaTheMuon, MaSach, SoLuong)
 VALUES
-(1, 'S001', 2),  -- Pham Van D mượn 2 cuốn "Sach Van Hoc 1"
-(1, 'S003', 1),  -- Pham Van D mượn 1 cuốn "Sach Tam Ly 1"
-(2, 'S002', 1),  -- Nguyen Thi E mượn 1 cuốn "Sach Khoa Hoc 1"
-(3, 'S003', 2);  -- Le Thi F mượn 2 cuốn "Sach Tam Ly 1"
-
-
+(1, 'S001', 2),
+(1, 'S003', 1),
+(2, 'S002', 1),
+(3, 'S003', 2);
+GO
