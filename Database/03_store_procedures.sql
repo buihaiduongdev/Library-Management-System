@@ -160,9 +160,7 @@ BEGIN
 END;
 
 CREATE OR ALTER PROCEDURE sp_XemTienPhatDocGia
-(
     @MaDG INT
-)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -182,9 +180,9 @@ BEGIN
     FROM DocGia dg
     JOIN TheMuon tm ON dg.ID = tm.MaDG
     JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-    JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
-    JOIN ChiTietTheMuon ct ON tm.MaTheMuon = ct.MaTheMuon
-    JOIN Sach s ON ct.MaSach = s.MaSach
+    JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach
+    JOIN Sach s ON ctts.MaSach = s.MaSach
+    JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach AND tp.MaSach = ctts.MaSach
     WHERE dg.ID = @MaDG
     ORDER BY tp.TrangThaiThanhToan, tp.NgayThanhToan;
 
@@ -198,22 +196,35 @@ BEGIN
     WHERE dg.ID = @MaDG AND tp.TrangThaiThanhToan = 'ChuaThanhToan';
 END;
 
+
 CREATE OR ALTER PROCEDURE sp_ThongKeTraTre
 AS
 BEGIN
-    SELECT dg.HoTen, tm.MaTheMuon, ts.NgayTraDuKien, ts.NgayTraThucTe,
-           DATEDIFF(DAY, ts.NgayTraDuKien, ts.NgayTraThucTe) AS SoNgayTre
+    SET NOCOUNT ON;
+
+    SELECT 
+        dg.HoTen, 
+        tm.MaTheMuon, 
+        ts.NgayTra, 
+        tm.NgayHenTra,
+        DATEDIFF(DAY, tm.NgayHenTra, ts.NgayTra) AS SoNgayTre,
+        s.TenSach
     FROM DocGia dg
     JOIN TheMuon tm ON dg.ID = tm.MaDG
     JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-    WHERE ts.NgayTraThucTe > ts.NgayTraDuKien;
+    JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach
+    JOIN Sach s ON ctts.MaSach = s.MaSach
+    WHERE ts.NgayTra > tm.NgayHenTra;
 END;
-GO
+
 
 CREATE OR ALTER PROCEDURE sp_BaoCaoTienPhatTheoThang
-    @Nam INT, @Thang INT
+    @Nam INT, 
+    @Thang INT
 AS
 BEGIN
+    SET NOCOUNT ON;
+
     SELECT 
         SUM(tp.SoTienPhat) AS TongTienPhat,
         COUNT(tp.MaPhat) AS SoLuotPhat
@@ -221,22 +232,42 @@ BEGIN
     WHERE MONTH(tp.NgayThanhToan) = @Thang
       AND YEAR(tp.NgayThanhToan) = @Nam;
 END;
-GO
 
-CREATE OR ALTER PROCEDURE sp_XemLichSuTraSach @MaDG INT
+
+CREATE OR ALTER PROCEDURE sp_XemLichSuTraSach
+    @MaDG INT
 AS
 BEGIN
-    SELECT s.TenSach, ts.NgayTraThucTe, ts.ChatLuongSach, tp.SoTienPhat, tp.TrangThaiThanhToan
+    SET NOCOUNT ON;
+
+    SELECT 
+        s.TenSach, 
+        ts.NgayTra, 
+        ctts.ChatLuongSach, 
+        tp.SoTienPhat, 
+        tp.TrangThaiThanhToan
     FROM DocGia dg
     JOIN TheMuon tm ON dg.ID = tm.MaDG
     JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-    LEFT JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
-    JOIN ChiTietTheMuon ctm ON tm.MaTheMuon = ctm.MaTheMuon
-    JOIN Sach s ON ctm.MaSach = s.MaSach
+    JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach
+    JOIN Sach s ON ctts.MaSach = s.MaSach
+    LEFT JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach AND tp.MaSach = ctts.MaSach
     WHERE dg.ID = @MaDG
-    ORDER BY ts.NgayTraThucTe DESC;
+    ORDER BY ts.NgayTra DESC;
 END;
-GO
+
+
+
+CREATE OR ALTER PROCEDURE sp_XemSachChuaTraTheoDocGia
+    @MaDG INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT *
+    FROM vw_SachChuaTra
+    WHERE MaDG = @MaDG;
+END;
 
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
