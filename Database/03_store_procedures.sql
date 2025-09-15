@@ -65,31 +65,40 @@ GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
 CREATE OR ALTER PROCEDURE sp_CapNhatKhoSach (
-    @MaSach VARCHAR(50),
+    @IdS INT,
     @SoLuongThem INT
 )
 AS
 BEGIN
     DECLARE @KetQua VARCHAR(100);
-    IF NOT EXISTS (SELECT 1 FROM SACH WHERE MaSach = @MaSach)
+    IF NOT EXISTS (SELECT 1 FROM SACH WHERE IdS = @IdS)
     BEGIN
         SET @KetQua = 'Mã sách không tồn tại trong bảng SACH';
         RAISERROR (@KetQua, 16, 1);
         RETURN;
     END;
-    IF EXISTS (SELECT 1 FROM Kho_Sach WHERE MaSach = @MaSach)
+    IF @SoLuongThem < 0 AND EXISTS (
+        SELECT 1 FROM Kho_Sach 
+        WHERE MaSach = @IdS AND SoLuongHienTai + @SoLuongThem < 0
+    )
+    BEGIN
+        SET @KetQua = 'Số lượng thêm vào không hợp lệ: kho không đủ sách';
+        RAISERROR (@KetQua, 16, 1);
+        RETURN;
+    END;
+    IF EXISTS (SELECT 1 FROM Kho_Sach WHERE MaSach = @IdS)
     BEGIN
         UPDATE Kho_Sach
         SET SoLuongHienTai = SoLuongHienTai + @SoLuongThem,
             TrangThaiSach = CASE WHEN SoLuongHienTai + @SoLuongThem > 0 THEN 'ConSach' ELSE 'HetSach' END
-        WHERE MaSach = @MaSach;
+        WHERE MaSach = @IdS;
     END
-    ELSE IF @SoLuongThem > 0  
+    ELSE IF @SoLuongThem > 0
     BEGIN
         INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
-        VALUES (@MaSach, @SoLuongThem, 'ConSach');
+        VALUES (@IdS, @SoLuongThem, 'ConSach');
     END;
-    SET @KetQua = N'Cập nhật kho sách thành công cho mã ' + @MaSach;
+    SET @KetQua = N'Cập nhật kho sách thành công cho mã ' + CAST(@IdS AS VARCHAR(10));
     PRINT @KetQua;
 END;
 GO
