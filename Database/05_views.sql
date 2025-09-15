@@ -33,53 +33,68 @@ LEFT JOIN
 GO
 
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
-CREATE VIEW ViewDanhSachSach AS
-SELECT 
-    s.MaSach, 
-    s.TenSach, 
-    s.NamXuatBan, 
-    s.GiaSach, 
-    s.AnhBia, 
-    t.TenTacGia, 
-    tl.TenTheLoai, 
+CREATE OR ALTER VIEW ViewDanhSachSach AS
+SELECT
+    s.MaSach,
+    s.TenSach,
+    s.NamXuatBan,
+    s.GiaSach,
+    s.AnhBia,
+    t.TenTacGia,
+    tl.TenTheLoai,
     nxb.TenNXB,
     ISNULL(ks.SoLuongHienTai, 0) AS SoLuongHienTai,
     ISNULL(ks.TrangThaiSach, 'HetSach') AS TrangThaiSach
 FROM SACH s
-JOIN TAC_GIA t ON s.MaTacGia = t.MaTacGia
-JOIN THE_LOAI tl ON s.MaTheLoai = tl.MaTheLoai
-JOIN NHA_XUAT_BAN nxb ON s.MaNXB = nxb.MaNXB
-LEFT JOIN Kho_Sach ks ON s.MaSach = ks.MaSach;
+JOIN TAC_GIA t ON s.IdTacGia = t.IdTG
+JOIN THE_LOAI tl ON s.IdTheLoai = tl.IdTL
+JOIN NHA_XUAT_BAN nxb ON s.IdNXB = nxb.IdNXB
+LEFT JOIN Kho_Sach ks ON s.IdS = ks.MaSach;
 GO
 
-CREATE VIEW ViewDanhSachTheLoai AS
-SELECT 
-    tl.MaTheLoai, 
+CREATE OR ALTER VIEW ViewDanhSachTheLoai AS
+SELECT
+    tl.MaTheLoai,
     tl.TenTheLoai,
-    COUNT(s.MaSach) AS SoLuongSach
+    COUNT(s.IdS) AS SoLuongSach
 FROM THE_LOAI tl
-LEFT JOIN SACH s ON tl.MaTheLoai = s.MaTheLoai
+LEFT JOIN SACH s ON tl.IdTL = s.IdTheLoai
 GROUP BY tl.MaTheLoai, tl.TenTheLoai;
 GO
 
-CREATE VIEW ViewDanhSachTacGia AS
-SELECT 
-    t.MaTacGia, 
+-- ViewDanhSachTacGia
+CREATE OR ALTER VIEW ViewDanhSachTacGia AS
+SELECT
+    t.MaTacGia,
     t.TenTacGia,
-    COUNT(s.MaSach) AS SoLuongSach
+    COUNT(s.IdS) AS SoLuongSach
 FROM TAC_GIA t
-LEFT JOIN SACH s ON t.MaTacGia = s.MaTacGia
+LEFT JOIN SACH s ON t.IdTG = s.IdTacGia
 GROUP BY t.MaTacGia, t.TenTacGia;
 GO
 
-CREATE VIEW ViewDanhSachNhaXuatBan AS
-SELECT 
-    nxb.MaNXB, 
+CREATE OR ALTER VIEW ViewDanhSachNhaXuatBan AS
+SELECT
+    nxb.MaNXB,
     nxb.TenNXB,
-    COUNT(s.MaSach) AS SoLuongSach
+    COUNT(s.IdS) AS SoLuongSach
 FROM NHA_XUAT_BAN nxb
-LEFT JOIN SACH s ON nxb.MaNXB = s.MaNXB
+LEFT JOIN SACH s ON nxb.IdNXB = s.IdNXB
 GROUP BY nxb.MaNXB, nxb.TenNXB;
+GO
+
+CREATE OR ALTER VIEW ViewLichSuNhapKho AS
+SELECT
+    tn.MaTheNhap,
+    tn.NgayNhap,
+    tn.TrangThai,
+    s.TenSach,
+    nv.HoTen AS TenNhanVien,
+    tn.TongSoLuongNhap,
+    tn.TongTienNhap
+FROM The_Nhap tn
+LEFT JOIN SACH s ON tn.IdS = s.IdS
+LEFT JOIN NhanVien nv ON tn.IdNV = nv.IdNV;
 GO
 -------------------------- Bui Thanh Tam - Quan Ly Tra Sach ----------------------
 CREATE OR ALTER VIEW vw_TongTienPhat
