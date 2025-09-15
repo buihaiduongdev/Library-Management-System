@@ -111,11 +111,12 @@ CREATE TABLE The_Nhap (
 GO
 
 CREATE TABLE Kho_Sach (
-    MaSach VARCHAR(50) PRIMARY KEY REFERENCES SACH(MaSach) ON DELETE CASCADE,
+    Id INT PRIMARY KEY IDENTITY(1, 1),  -- Cột khóa chính mới cho bảng Kho_Sach
+    MaSach VARCHAR(50) NOT NULL REFERENCES SACH(MaSach) ON DELETE CASCADE,  -- Khóa ngoại liên kết với bảng SACH
     SoLuongHienTai INT NOT NULL DEFAULT 0 CHECK (SoLuongHienTai >= 0),
     TrangThaiSach VARCHAR(50) NOT NULL DEFAULT 'HetSach' CHECK (TrangThaiSach IN ('ConSach', 'HetSach'))
 );
-GO
+Go
 
 --------------------------Vu Minh Hieu- Quan Ly Muon Sach --------------------------
 CREATE TABLE TheMuon (
