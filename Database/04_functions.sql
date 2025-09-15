@@ -35,25 +35,25 @@ RETURN
 GO
 -------------------------- Phan Ngoc Duy - Quan Ly Nhap Sach --------------------------
 
-CREATE OR ALTER FUNCTION fn_KiemTraTrangThaiKhoSach (@p_MaSach VARCHAR(50))
+CREATE OR ALTER FUNCTION fn_KiemTraTrangThaiKhoSach (@p_IdS INT)
 RETURNS NVARCHAR(100)
 AS
 BEGIN
     DECLARE @SoLuong INT;
-    DECLARE @TrangThai VARCHAR(50) = 'HetSach';  -- Default
+    DECLARE @TrangThai VARCHAR(50) = 'HetSach';
     DECLARE @KetQua NVARCHAR(100);
-    IF NOT EXISTS (SELECT 1 FROM SACH WHERE MaSach = @p_MaSach)
+    IF NOT EXISTS (SELECT 1 FROM SACH WHERE IdS = @p_IdS)
     BEGIN
-        SET @KetQua = N'Sách ' + @p_MaSach + N' không tồn tại trong danh mục sách';
+        SET @KetQua = N'Sách ' + CAST(@p_IdS AS NVARCHAR(10)) + N' không tồn tại trong danh mục sách';
         RETURN @KetQua;
     END;
     SELECT @SoLuong = ISNULL(SoLuongHienTai, 0), @TrangThai = ISNULL(TrangThaiSach, 'HetSach')
     FROM Kho_Sach
-    WHERE MaSach = @p_MaSach;
+    WHERE MaSach = @p_IdS;
     IF @SoLuong = 0
-        SET @KetQua = N'Sách ' + @p_MaSach + N' không tồn tại trong kho';
+        SET @KetQua = N'Sách ' + CAST(@p_IdS AS NVARCHAR(10)) + N' không tồn tại trong kho';
     ELSE
-        SET @KetQua = N'Sách ' + @p_MaSach + N': Số lượng hiện tại = ' +
+        SET @KetQua = N'Sách ' + CAST(@p_IdS AS NVARCHAR(10)) + N': Số lượng hiện tại = ' +
                        CAST(@SoLuong AS NVARCHAR(10)) + N', Trạng thái = ' + @TrangThai;
     RETURN @KetQua;
 END;
