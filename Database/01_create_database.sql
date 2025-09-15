@@ -134,14 +134,15 @@ CREATE TABLE TheMuon (
 -- Bảng chi tiết phiếu mượn (một phiếu mượn có nhiều sách)
 CREATE TABLE ChiTietTheMuon (
     MaTheMuon INT NOT NULL,
-    MaSach VARCHAR(50) NOT NULL,
+    IdS INT NOT NULL,  -- Tham chiếu đến SACH(IdS)
     SoLuong INT DEFAULT 1 CHECK (SoLuong > 0),
-    PRIMARY KEY (MaTheMuon, MaSach),
+    PRIMARY KEY (MaTheMuon, IdS),
     FOREIGN KEY (MaTheMuon) REFERENCES TheMuon(MaTheMuon)
         ON DELETE CASCADE,
-    FOREIGN KEY (MaSach) REFERENCES Sach(MaSach)
+    FOREIGN KEY (IdS) REFERENCES Sach(IdS)
         ON DELETE CASCADE
 );
+
 
 -------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
 CREATE TABLE TraSach (
@@ -157,16 +158,17 @@ CREATE TABLE TraSach (
 
 CREATE TABLE ChiTietTraSach (
     MaTraSach INT NOT NULL REFERENCES TraSach(MaTraSach) ON DELETE CASCADE,
-    MaSach VARCHAR(50) NOT NULL REFERENCES Sach(MaSach) ON DELETE CASCADE,
+    IdS INT NOT NULL REFERENCES Sach(IdS) ON DELETE CASCADE,
     SoLuongTra INT NOT NULL CHECK (SoLuongTra > 0),
     ChatLuongSach VARCHAR(20) NOT NULL CHECK (ChatLuongSach IN ('Tot','HuHong','Mat')),
-    PRIMARY KEY (MaTraSach, MaSach)
+    PRIMARY KEY (MaTraSach, IdS)
 );
+
 
 CREATE TABLE ThePhat (
     MaPhat INT PRIMARY KEY IDENTITY(1,1),
     MaTraSach INT NOT NULL REFERENCES TraSach(MaTraSach) ON DELETE CASCADE,
-    MaSach VARCHAR(50) NOT NULL REFERENCES Sach(MaSach) ON DELETE CASCADE,
+    IdS INT NOT NULL REFERENCES Sach(IdS) ON DELETE CASCADE,
     SoTienPhat DECIMAL(10,2) NOT NULL,
     LyDoPhat NVARCHAR(100) NOT NULL,
     TrangThaiThanhToan VARCHAR(20) NOT NULL 
@@ -174,3 +176,4 @@ CREATE TABLE ThePhat (
     NgayThanhToan DATE NULL,
     GhiChu NVARCHAR(255) NULL
 );
+
