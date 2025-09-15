@@ -113,14 +113,17 @@ JOIN DocGia dg ON tm.MaDG = dg.ID
 GROUP BY dg.ID, dg.HoTen;
 
 
+
 CREATE OR ALTER VIEW vw_SachChuaTra
 AS
 SELECT 
     tm.MaTheMuon,
     dg.ID AS MaDG,
     dg.HoTen AS TenDocGia,
-    s.MaSach,
+    s.IdS,                       -- Id sách (dùng cho xử lý
+    s.MaSach,                    -- Mã sách hiển thị
     s.TenSach,
+    tg.TenTacGia,               
     ctm.SoLuong AS SoLuongMuon,
     ISNULL(SUM(ctts.SoLuongTra), 0) AS SoLuongDaTra,
     ctm.SoLuong - ISNULL(SUM(ctts.SoLuongTra), 0) AS SoLuongConLai,
@@ -129,11 +132,19 @@ SELECT
 FROM TheMuon tm
 JOIN DocGia dg ON tm.MaDG = dg.ID
 JOIN ChiTietTheMuon ctm ON tm.MaTheMuon = ctm.MaTheMuon
-JOIN Sach s ON ctm.MaSach = s.MaSach
+JOIN Sach s ON ctm.IdS = s.IdS
+JOIN Tac_Gia tg ON s.IdTacGia = tg.IdTG        
 LEFT JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-LEFT JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach AND ctm.MaSach = ctts.MaSach
+LEFT JOIN ChiTietTraSach ctts 
+       ON ts.MaTraSach = ctts.MaTraSach 
+      AND ctm.IdS = ctts.IdS
 WHERE tm.TrangThai = 'DangMuon'
-GROUP BY tm.MaTheMuon, dg.ID, dg.HoTen, s.MaSach, s.TenSach, ctm.SoLuong, tm.NgayMuon, tm.NgayHenTra;
+GROUP BY tm.MaTheMuon, dg.ID, dg.HoTen, 
+         s.IdS, s.MaSach, s.TenSach, tg.TenTacGia,
+         ctm.SoLuong, tm.NgayMuon, tm.NgayHenTra
+HAVING ctm.SoLuong - ISNULL(SUM(ctts.SoLuongTra), 0) > 0;
+
+
 
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
