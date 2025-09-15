@@ -43,34 +43,38 @@ VALUES
 (N'Lê Thị F', '1999-12-25', '789 Duong C', 'ltf@gmail.com', '0933444555', '2025-08-23', '2026-08-23', 'ConHan');
 GO
 
--------------------------- QUAN LY SACH (Phan Ngoc Duy) --------------------------
+-------------------------- QUAN LY NHAP SACH (Phan Ngoc Duy) --------------------------
+
 INSERT INTO TAC_GIA (MaTacGia, TenTacGia) VALUES
 ('TG001', N'Nguyễn Du'), ('TG002', N'Hồ Chí Minh'), ('TG003', N'Nam Cao'), ('TG004', N'Xuân Diệu'),
 ('TG005', N'Bảo Ninh'), ('TG006', N'Tô Hoài'), ('TG007', N'Nguyễn Khuyến'), ('TG008', N'Vũ Trọng Phụng'),
 ('TG009', N'Thạch Lam'), ('TG010', N'Ngô Tất Tố');
+GO
 
 INSERT INTO THE_LOAI (MaTheLoai, TenTheLoai) VALUES
 ('TL001', N'Kinh Tế'), ('TL002', N'Chính Trị'), ('TL003', N'Văn Học'), ('TL004', N'Lịch Sử'),
 ('TL005', N'Khoa Học'), ('TL006', N'Tiểu Thuyết'), ('TL007', N'Trinh Thám'), ('TL008', N'Giáo Dục'),
 ('TL009', N'Tâm Lý'), ('TL010', N'Tôn Giáo');
+GO
 
 INSERT INTO NHA_XUAT_BAN (MaNXB, TenNXB) VALUES
 ('NXB001', N'Nhà Xuất Bản Trẻ'), ('NXB002', N'Nhà Xuất Bản Giáo Dục'), ('NXB003', N'Nhà Xuất Bản Kim Đồng'),
 ('NXB004', N'Nhà Xuất Bản Văn Học'), ('NXB005', N'Nhà Xuất Bản Hội Nhà Văn'), ('NXB006', N'Nhà Xuất Bản Hà Nội'),
 ('NXB007', N'Nhà Xuất Bản Đông Á'), ('NXB008', N'Nhà Xuất Bản Lao Động'), ('NXB009', N'Nhà Xuất Bản Phụ Nữ'),
 ('NXB010', N'Nhà Xuất Bản Tư Pháp');
+GO
 
-INSERT INTO SACH (MaSach, TenSach, NamXuatBan, GiaSach, AnhBia, MaNXB, MaTacGia, MaTheLoai) VALUES
-('S001', N'Truyện Kiều', 1995, 150000, 'image1.jpg', 'NXB001', 'TG001', 'TL003'),
-('S002', N'Nhật ký trong tù', 2000, 120000, 'image2.jpg', 'NXB004', 'TG002', 'TL004'),
-('S003', N'Chí Phèo', 2010, 200000, 'image3.jpg', 'NXB007', 'TG003', 'TL006'),
-('S004', N'Thơ thơ', 2015, 180000, 'image4.jpg', 'NXB010', 'TG004', 'TL003'),
-('S005', N'Nỗi buồn chiến tranh', 2018, 250000, 'image5.jpg', 'NXB010', 'TG005', 'TL004'),
-('S006', N'Dế mèn phiêu lưu ký', 2016, 210000, 'image6.jpg', 'NXB010', 'TG006', 'TL003'),
-('S007', N'Bạn đến chơi nhà', 2017, 160000, 'image7.jpg', 'NXB007', 'TG007', 'TL003'),
-('S008', N'Số đỏ', 2008, 130000, 'image8.jpg', 'NXB010', 'TG008', 'TL006'),
-('S009', N'Hà Nội băm sáu phố phường', 2005, 175000, 'image9.jpg', 'NXB010', 'TG009', 'TL003'),
-('S010', N'Tắt đèn', 2002, 95000, 'image10.jpg', 'NXB010', 'TG010', 'TL006');
+INSERT INTO SACH (TenSach, NamXuatBan, GiaSach, AnhBia, MaNXB, MaTacGia, MaTheLoai) VALUES
+(N'Truyện Kiều', 1995, 150000, 'image1.jpg', 'NXB001', 'TG001', 'TL003'),
+(N'Nhật ký trong tù', 2000, 120000, 'image2.jpg', 'NXB004', 'TG002', 'TL004'),
+(N'Chí Phèo', 2010, 200000, 'image3.jpg', 'NXB007', 'TG003', 'TL006'),
+(N'Thơ thơ', 2015, 180000, 'image4.jpg', 'NXB010', 'TG004', 'TL003'),
+(N'Nỗi buồn chiến tranh', 2018, 250000, 'image5.jpg', 'NXB010', 'TG005', 'TL004'),
+(N'Dế mèn phiêu lưu ký', 2016, 210000, 'image6.jpg', 'NXB010', 'TG006', 'TL003'),
+(N'Bạn đến chơi nhà', 2017, 160000, 'image7.jpg', 'NXB007', 'TG007', 'TL003'),
+(N'Số đỏ', 2008, 130000, 'image8.jpg', 'NXB010', 'TG008', 'TL006'),
+(N'Hà Nội băm sáu phố phường', 2005, 175000, 'image9.jpg', 'NXB010', 'TG009', 'TL003'),
+(N'Tắt đèn', 2002, 95000, 'image10.jpg', 'NXB010', 'TG010', 'TL006');
 GO
 
 INSERT INTO The_Nhap (MaTheNhap, MaNV, NgayNhap, TongSoLuongNhap, TrangThai, TongTienNhap, GiaNhap, MaSach) VALUES
@@ -82,7 +86,7 @@ INSERT INTO The_Nhap (MaTheNhap, MaNV, NgayNhap, TongSoLuongNhap, TrangThai, Ton
 ('TN006', 6, '2022-03-15', 110, 'DaNhap', 1650000, 15000, 'S006'),
 ('TN007', 7, '2022-04-18', 140, 'ChuaNhap', 2100000, 15000, 'S007'),
 ('TN008', 8, '2022-04-25', 130, 'DaNhap', 1950000, 15000, 'S008'),
-('TN009', 9, '2022-05-10', 80, 'ChuaNhap', 1200000, 15000, 'S009')
+('TN009', 9, '2022-05-10', 80, 'ChuaNhap', 1200000, 15000, 'S009');
 GO
 
 INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach) VALUES
