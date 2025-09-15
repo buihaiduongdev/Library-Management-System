@@ -133,10 +133,10 @@ VALUES
 (3, 3, '2025-08-26', '2025-09-12', 'DangMuon'); -- MaTheMuon sẽ là 3
 GO
 
-INSERT INTO ChiTietTheMuon (MaTheMuon, MaSach, SoLuong)
+INSERT INTO ChiTietTheMuon (MaTheMuon, IdS, SoLuong)
 VALUES
-(1, 'S001', 2),
-(1, 'S003', 1),
-(2, 'S002', 1),
-(3, 'S003', 2);
+(1, 1, 2),
+(1, 2, 1),
+(2, 3, 1),
+(3, 4, 2);
 GO
