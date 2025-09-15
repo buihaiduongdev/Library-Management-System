@@ -106,12 +106,12 @@ GO
 -------------------------- Bui Thanh Tam - Quan Ly Tra Sach --------------------------
 CREATE OR ALTER PROCEDURE sp_TraTungSach
 (
-    @MaTheMuon INT,
-    @IdNV INT,
-    @MaSach VARCHAR(50),
-    @SoLuongTra INT,
-    @NgayTra DATE,
-    @ChatLuongSach VARCHAR(20),
+    @MaTheMuon INT,                -- Phiếu mượn
+    @IdNV INT,                     -- Nhân viên xử lý
+    @IdS INT,                      -- Id sách (FK -> Sach.IdS)
+    @SoLuongTra INT,               -- Số lượng trả
+    @NgayTra DATE,                 -- Ngày trả
+    @ChatLuongSach VARCHAR(20),    -- Tình trạng: Tot / HuHong / Mat
     @GhiChu NVARCHAR(255) = NULL
 )
 AS
@@ -120,36 +120,55 @@ BEGIN
 
     DECLARE @MaTraSach INT, @NgayHenTra DATE;
 
-    SELECT @NgayHenTra = NgayHenTra FROM TheMuon WHERE MaTheMuon = @MaTheMuon;
+    -- Lấy ngày hẹn trả từ phiếu mượn
+    SELECT @NgayHenTra = NgayHenTra
+    FROM TheMuon
+    WHERE MaTheMuon = @MaTheMuon;
 
     -- Nếu chưa có phiếu trả thì tạo mới
-    SELECT @MaTraSach = MaTraSach FROM TraSach WHERE MaTheMuon = @MaTheMuon;
+    SELECT @MaTraSach = MaTraSach
+    FROM TraSach
+    WHERE MaTheMuon = @MaTheMuon;
+
     IF @MaTraSach IS NULL
     BEGIN
         INSERT INTO TraSach(MaTheMuon, IdNV, NgayTra, GhiChu, DaThongBao)
         VALUES(@MaTheMuon, @IdNV, @NgayTra, @GhiChu, 0);
+
         SET @MaTraSach = SCOPE_IDENTITY();
     END
 
-    -- Ghi chi tiết trả
-    INSERT INTO ChiTietTraSach(MaTraSach, MaSach, SoLuongTra, ChatLuongSach)
-    VALUES(@MaTraSach, @MaSach, @SoLuongTra, @ChatLuongSach);
+    -- Nếu đã tồn tại sách này trong phiếu trả thì UPDATE, ngược lại thì INSERT
+    IF EXISTS (SELECT 1 FROM ChiTietTraSach WHERE MaTraSach = @MaTraSach AND IdS = @IdS)
+    BEGIN
+        UPDATE ChiTietTraSach
+        SET SoLuongTra = SoLuongTra + @SoLuongTra,
+            ChatLuongSach = @ChatLuongSach
+        WHERE MaTraSach = @MaTraSach AND IdS = @IdS;
+    END
+    ELSE
+    BEGIN
+        INSERT INTO ChiTietTraSach(MaTraSach, IdS, SoLuongTra, ChatLuongSach)
+        VALUES(@MaTraSach, @IdS, @SoLuongTra, @ChatLuongSach);
+    END
 
     -- Cập nhật kho
     UPDATE Kho_Sach
     SET SoLuongHienTai = SoLuongHienTai + @SoLuongTra,
         TrangThaiSach = 'ConSach'
-    WHERE MaSach = @MaSach;
+    WHERE MaSach = @IdS;
 
-    -- Tính phạt
-    DECLARE @TienPhat DECIMAL(10,2) = dbo.fn_TinhTienPhat(@NgayHenTra, @NgayTra, @ChatLuongSach, @MaSach);
+    -- Tính tiền phạt
+    DECLARE @TienPhat DECIMAL(10,2) =
+        dbo.fn_TinhTienPhat(@NgayHenTra, @NgayTra, @ChatLuongSach, @IdS);
+
     IF @TienPhat > 0
     BEGIN
-        INSERT INTO ThePhat(MaTraSach, MaSach, SoTienPhat, LyDoPhat, TrangThaiThanhToan)
-        VALUES(@MaTraSach, @MaSach, @TienPhat, N'Phạt khi trả sách', 'ChuaThanhToan');
+        INSERT INTO ThePhat(MaTraSach, IdS, SoTienPhat, LyDoPhat, TrangThaiThanhToan)
+        VALUES(@MaTraSach, @IdS, @TienPhat, N'Phạt khi trả sách', 'ChuaThanhToan');
     END;
 
-    -- Nếu tất cả sách đã trả đủ → update phiếu mượn = DaTra
+    -- Nếu tất cả sách đã trả đủ → cập nhật trạng thái phiếu mượn = 'DaTra'
     IF NOT EXISTS (
         SELECT 1
         FROM ChiTietTheMuon ctm
@@ -159,51 +178,17 @@ BEGIN
               FROM ChiTietTraSach ctts
               JOIN TraSach ts ON ctts.MaTraSach = ts.MaTraSach
               WHERE ts.MaTheMuon = @MaTheMuon
-                AND ctts.MaSach = ctm.MaSach
+                AND ctts.IdS = ctm.IdS
                 AND ctts.SoLuongTra >= ctm.SoLuong
           )
     )
     BEGIN
-        UPDATE TheMuon SET TrangThai = 'DaTra' WHERE MaTheMuon = @MaTheMuon;
+        UPDATE TheMuon
+        SET TrangThai = 'DaTra'
+        WHERE MaTheMuon = @MaTheMuon;
     END
 END;
-
-CREATE OR ALTER PROCEDURE sp_XemTienPhatDocGia
-    @MaDG INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    SELECT 
-        dg.ID AS MaDocGia,
-        dg.HoTen,
-        tp.MaPhat,
-        ts.MaTraSach,
-        tm.MaTheMuon,
-        s.TenSach,
-        tp.SoTienPhat,
-        tp.LyDoPhat,
-        tp.TrangThaiThanhToan,
-        tp.NgayThanhToan,
-        tp.GhiChu
-    FROM DocGia dg
-    JOIN TheMuon tm ON dg.ID = tm.MaDG
-    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-    JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach
-    JOIN Sach s ON ctts.MaSach = s.MaSach
-    JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach AND tp.MaSach = ctts.MaSach
-    WHERE dg.ID = @MaDG
-    ORDER BY tp.TrangThaiThanhToan, tp.NgayThanhToan;
-
-    -- Tổng tiền phạt chưa thanh toán
-    SELECT 
-        SUM(tp.SoTienPhat) AS TongNoPhat
-    FROM DocGia dg
-    JOIN TheMuon tm ON dg.ID = tm.MaDG
-    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-    JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach
-    WHERE dg.ID = @MaDG AND tp.TrangThaiThanhToan = 'ChuaThanhToan';
-END;
+GO
 
 
 CREATE OR ALTER PROCEDURE sp_ThongKeTraTre
