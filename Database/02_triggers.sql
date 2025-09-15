@@ -46,9 +46,9 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE TAC_GIA
-    SET MaTacGia = 'TG' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
+    SET MaTacGia = 'TG' + RIGHT('000' + CAST(i.IdTG AS VARCHAR(3)), 3)
     FROM TAC_GIA TG
-    INNER JOIN inserted i ON TG.Id = i.Id;
+    INNER JOIN inserted i ON TG.IdTG = i.IdTG;
 END;
 GO
 
@@ -58,9 +58,9 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE THE_LOAI
-    SET MaTheLoai = 'TL' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
+    SET MaTheLoai = 'TL' + RIGHT('000' + CAST(i.IdTL AS VARCHAR(3)), 3)
     FROM THE_LOAI TL
-    INNER JOIN inserted i ON TL.Id = i.Id;
+    INNER JOIN inserted i ON TL.IdTL = i.IdTL;
 END;
 GO
 
@@ -70,9 +70,9 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE NHA_XUAT_BAN
-    SET MaNXB = 'NXB' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
+    SET MaNXB = 'NXB' + RIGHT('000' + CAST(i.IdNXB AS VARCHAR(3)), 3)
     FROM NHA_XUAT_BAN NXB
-    INNER JOIN inserted i ON NXB.Id = i.Id;
+    INNER JOIN inserted i ON NXB.IdNXB = i.IdNXB;
 END;
 GO
 
@@ -82,9 +82,9 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE SACH
-    SET MaSach = 'S' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
+    SET MaSach = 'S' + RIGHT('000' + CAST(i.IdS AS VARCHAR(3)), 3)
     FROM SACH S
-    INNER JOIN inserted i ON S.Id = i.Id;
+    INNER JOIN inserted i ON S.IdS = i.IdS;
 END;
 GO
 
@@ -94,9 +94,9 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE The_Nhap
-    SET MaTheNhap = 'TN' + RIGHT('000' + CAST(i.Id AS VARCHAR(3)), 3)
+    SET MaTheNhap = 'TN' + RIGHT('000' + CAST(i.IdTN AS VARCHAR(3)), 3)
     FROM The_Nhap TN
-    INNER JOIN inserted i ON TN.Id = i.Id;
+    INNER JOIN inserted i ON TN.IdTN = i.IdTN;
 END;
 GO
 
@@ -105,17 +105,44 @@ ON The_Nhap
 AFTER INSERT
 AS
 BEGIN
-    DECLARE @MaSach VARCHAR(50), @SoLuongThem INT;
-    DECLARE cur CURSOR FOR SELECT MaSach, TongSoLuongNhap FROM inserted WHERE TrangThai = 'DaNhap';  -- Thêm WHERE để chỉ DaNhap
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @MaSach, @SoLuongThem;
-    WHILE @@FETCH_STATUS = 0
+    SET NOCOUNT ON;
+    DECLARE @IdS INT, @SoLuongThem INT;
+
+    -- Lấy dữ liệu từ inserted
+    SELECT @IdS = IdS, @SoLuongThem = TongSoLuongNhap
+    FROM inserted
+    WHERE TrangThai = 'DaNhap';
+
+    -- Kiểm tra IdS tồn tại
+    IF NOT EXISTS (SELECT 1 FROM SACH WHERE IdS = @IdS)
     BEGIN
-        EXEC sp_CapNhatKhoSach @MaSach, @SoLuongThem;
-        FETCH NEXT FROM cur INTO @MaSach, @SoLuongThem;
+        RAISERROR ('Mã sách không tồn tại trong bảng SACH', 16, 1);
+        RETURN;
     END;
-    CLOSE cur;
-    DEALLOCATE cur;
+
+    -- Kiểm tra số lượng âm
+    IF @SoLuongThem < 0 AND EXISTS (
+        SELECT 1 FROM Kho_Sach 
+        WHERE MaSach = @IdS AND SoLuongHienTai + @SoLuongThem < 0
+    )
+    BEGIN
+        RAISERROR ('Số lượng thêm vào không hợp lệ: kho không đủ sách', 16, 1);
+        RETURN;
+    END;
+
+    -- Cập nhật hoặc thêm vào Kho_Sach
+    IF EXISTS (SELECT 1 FROM Kho_Sach WHERE MaSach = @IdS)
+    BEGIN
+        UPDATE Kho_Sach
+        SET SoLuongHienTai = SoLuongHienTai + @SoLuongThem,
+            TrangThaiSach = CASE WHEN SoLuongHienTai + @SoLuongThem > 0 THEN 'ConSach' ELSE 'HetSach' END
+        WHERE MaSach = @IdS;
+    END
+    ELSE IF @SoLuongThem > 0
+    BEGIN
+        INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
+        VALUES (@IdS, @SoLuongThem, 'ConSach');
+    END;
 END;
 GO
 
