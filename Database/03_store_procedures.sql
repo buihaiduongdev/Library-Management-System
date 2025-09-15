@@ -252,16 +252,20 @@ END;
 
 
 
-CREATE OR ALTER PROCEDURE sp_XemSachChuaTraTheoDocGia
-    @MaDG INT
+CREATE OR ALTER PROCEDURE sp_TimKiemSachDangMuon
+    @Keyword NVARCHAR(50)
 AS
 BEGIN
-    SET NOCOUNT ON;
-
     SELECT *
     FROM vw_SachChuaTra
-    WHERE MaDG = @MaDG;
-END;
+    WHERE CAST(MaTheMuon AS NVARCHAR) LIKE '%' + @Keyword + '%'
+       OR CAST(MaDG AS NVARCHAR) LIKE '%' + @Keyword + '%'
+       OR TenDocGia LIKE N'%' + @Keyword + N'%'
+       OR MaSach LIKE '%' + @Keyword + '%'
+       OR TenSach LIKE N'%' + @Keyword + N'%';
+END
+GO
+
 
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
