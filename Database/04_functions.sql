@@ -84,7 +84,7 @@ CREATE OR ALTER FUNCTION fn_TinhTienPhat
     @NgayTraDuKien DATE,
     @NgayTraThucTe DATE,
     @ChatLuongSach VARCHAR(20),
-    @MaSach VARCHAR(10)
+    @IdS INT   -- Dùng IdS để đồng bộ với FK trong ChiTietTheMuon/ChiTietTraSach
 )
 RETURNS DECIMAL(10,2)
 AS
@@ -93,16 +93,19 @@ BEGIN
     DECLARE @SoNgayTre INT = dbo.fn_TinhNgayTreHan(@NgayTraDuKien, @NgayTraThucTe);
     DECLARE @GiaSach DECIMAL(10,2);
 
-    SELECT @GiaSach = GiaSach FROM Sach WHERE MaSach = @MaSach;
+    SELECT @GiaSach = GiaSach 
+    FROM Sach 
+    WHERE IdS = @IdS;
 
     -- Phạt trễ hạn
     IF @SoNgayTre > 0
     BEGIN
         SET @Tien = CASE 
-                        WHEN @SoNgayTre <= 5 THEN @SoNgayTre * 1000
+                        WHEN @SoNgayTre <= 5 
+                            THEN @SoNgayTre * 1000
                         ELSE (5 * 1000) + ((@SoNgayTre - 5) * 3000)
                     END;
-    END
+    END;
 
     -- Phạt hư hỏng
     IF @ChatLuongSach = 'HuHong'
@@ -111,8 +114,11 @@ BEGIN
     -- Phạt mất sách
     IF @ChatLuongSach = 'Mat'
         SET @Tien = @Tien + @GiaSach;
+
     RETURN @Tien;
 END;
+GO
+
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
 CREATE FUNCTION fn_KiemTraSoLuongSach( @MaSach VARCHAR(10), @SoLuongMuon INT)
