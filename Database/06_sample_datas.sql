@@ -45,56 +45,86 @@ GO
 
 -------------------------- QUAN LY NHAP SACH (Phan Ngoc Duy) --------------------------
 
-INSERT INTO TAC_GIA (MaTacGia, TenTacGia) VALUES
-('TG001', N'Nguyễn Du'), ('TG002', N'Hồ Chí Minh'), ('TG003', N'Nam Cao'), ('TG004', N'Xuân Diệu'),
-('TG005', N'Bảo Ninh'), ('TG006', N'Tô Hoài'), ('TG007', N'Nguyễn Khuyến'), ('TG008', N'Vũ Trọng Phụng'),
-('TG009', N'Thạch Lam'), ('TG010', N'Ngô Tất Tố');
+INSERT INTO TAC_GIA (TenTacGia) VALUES
+(N'Nguyễn Du'),
+(N'Hồ Chí Minh'),
+(N'Nam Cao'),
+(N'Xuân Diệu'),
+(N'Bảo Ninh'),
+(N'Tô Hoài'),
+(N'Nguyễn Khuyến'),
+(N'Vũ Trọng Phụng'),
+(N'Thạch Lam'),
+(N'Ngô Tất Tố');
 GO
 
-INSERT INTO THE_LOAI (MaTheLoai, TenTheLoai) VALUES
-('TL001', N'Kinh Tế'), ('TL002', N'Chính Trị'), ('TL003', N'Văn Học'), ('TL004', N'Lịch Sử'),
-('TL005', N'Khoa Học'), ('TL006', N'Tiểu Thuyết'), ('TL007', N'Trinh Thám'), ('TL008', N'Giáo Dục'),
-('TL009', N'Tâm Lý'), ('TL010', N'Tôn Giáo');
+INSERT INTO THE_LOAI (TenTheLoai) VALUES
+(N'Kinh Tế'),
+(N'Chính Trị'),
+(N'Văn Học'),
+(N'Lịch Sử'),
+(N'Khoa Học'),
+(N'Tiểu Thuyết'),
+(N'Trinh Thám'),
+(N'Giáo Dục'),
+(N'Tâm Lý'),
+(N'Tôn Giáo');
+
+INSERT INTO NHA_XUAT_BAN (TenNXB) VALUES
+(N'Nhà Xuất Bản Trẻ'),
+(N'Nhà Xuất Bản Giáo Dục'),
+(N'Nhà Xuất Bản Kim Đồng'),
+(N'Nhà Xuất Bản Văn Học'),
+(N'Nhà Xuất Bản Hội Nhà Văn'),
+(N'Nhà Xuất Bản Hà Nội'),
+(N'Nhà Xuất Bản Đông Á'),
+(N'Nhà Xuất Bản Lao Động'),
+(N'Nhà Xuất Bản Phụ Nữ'),
+(N'Nhà Xuất Bản Tư Pháp');
 GO
 
-INSERT INTO NHA_XUAT_BAN (MaNXB, TenNXB) VALUES
-('NXB001', N'Nhà Xuất Bản Trẻ'), ('NXB002', N'Nhà Xuất Bản Giáo Dục'), ('NXB003', N'Nhà Xuất Bản Kim Đồng'),
-('NXB004', N'Nhà Xuất Bản Văn Học'), ('NXB005', N'Nhà Xuất Bản Hội Nhà Văn'), ('NXB006', N'Nhà Xuất Bản Hà Nội'),
-('NXB007', N'Nhà Xuất Bản Đông Á'), ('NXB008', N'Nhà Xuất Bản Lao Động'), ('NXB009', N'Nhà Xuất Bản Phụ Nữ'),
-('NXB010', N'Nhà Xuất Bản Tư Pháp');
+INSERT INTO SACH (TenSach, NamXuatBan, GiaSach, IdTacGia, IdTheLoai, IdNXB) 
+VALUES
+(N'Truyện Kiều', 1995, 150000, 1, 3, 1),  -- IdTacGia = 1, IdTheLoai = 3, IdNXB = 1
+(N'Nhật ký trong tù', 2000, 120000, 2, 4, 2),
+(N'Chí Phèo', 2010, 200000, 3, 6, 3),
+(N'Thơ thơ', 2015, 180000, 4, 3, 4),
+(N'Nỗi buồn chiến tranh', 2018, 250000, 5, 4, 4),
+(N'Dế mèn phiêu lưu ký', 2016, 210000, 6, 3, 4),
+(N'Bạn đến chơi nhà', 2017, 160000, 7, 3, 3),
+(N'Số đỏ', 2008, 130000, 8, 6, 4),
+(N'Hà Nội băm sáu phố phường', 2005, 175000, 9, 3, 4),
+(N'Tắt đèn', 2002, 95000, 10, 6, 4);
 GO
 
-INSERT INTO SACH (TenSach, NamXuatBan, GiaSach, AnhBia, MaNXB, MaTacGia, MaTheLoai) VALUES
-(N'Truyện Kiều', 1995, 150000, 'image1.jpg', 'NXB001', 'TG001', 'TL003'),
-(N'Nhật ký trong tù', 2000, 120000, 'image2.jpg', 'NXB004', 'TG002', 'TL004'),
-(N'Chí Phèo', 2010, 200000, 'image3.jpg', 'NXB007', 'TG003', 'TL006'),
-(N'Thơ thơ', 2015, 180000, 'image4.jpg', 'NXB010', 'TG004', 'TL003'),
-(N'Nỗi buồn chiến tranh', 2018, 250000, 'image5.jpg', 'NXB010', 'TG005', 'TL004'),
-(N'Dế mèn phiêu lưu ký', 2016, 210000, 'image6.jpg', 'NXB010', 'TG006', 'TL003'),
-(N'Bạn đến chơi nhà', 2017, 160000, 'image7.jpg', 'NXB007', 'TG007', 'TL003'),
-(N'Số đỏ', 2008, 130000, 'image8.jpg', 'NXB010', 'TG008', 'TL006'),
-(N'Hà Nội băm sáu phố phường', 2005, 175000, 'image9.jpg', 'NXB010', 'TG009', 'TL003'),
-(N'Tắt đèn', 2002, 95000, 'image10.jpg', 'NXB010', 'TG010', 'TL006');
+INSERT INTO The_Nhap (IdNV, IdS, NgayNhap, TrangThai, TongSoLuongNhap, GiaNhap, TongTienNhap)
+VALUES
+    (1, 1, '2025-09-01', 'DaNhap', 20, 100000.00, 2000000.00),
+    (1, 2, '2025-09-02', 'ChuaNhap', 15, 80000.00, 1200000.00), 
+    (2, 3, '2025-09-03', 'DaNhap', 30, 150000.00, 4500000.00),  
+    (2, 4, '2025-09-04', 'ChuaNhap', 25, 120000.00, 3000000.00), 
+    (1, 5, '2025-09-05', 'DaNhap', 10, 200000.00, 2000000.00),  
+    (1, 6, '2025-09-06', 'ChuaNhap', 40, 150000.00, 6000000.00), 
+    (2, 7, '2025-09-07', 'DaNhap', 15, 100000.00, 1500000.00),  
+    (2, 8, '2025-09-08', 'ChuaNhap', 20, 90000.00, 1800000.00),  
+    (1, 9, '2025-09-09', 'DaNhap', 25, 120000.00, 3000000.00),  
+    (1, 10, '2025-09-10', 'ChuaNhap', 30, 70000.00, 2100000.00); 
 GO
-
-INSERT INTO The_Nhap (MaTheNhap, MaNV, NgayNhap, TongSoLuongNhap, TrangThai, TongTienNhap, GiaNhap, MaSach) VALUES
-('TN001', 1, '2022-01-15', 100, 'DaNhap', 1500000, 15000, 'S001'),
-('TN002', 2, '2022-01-20', 150, 'ChuaNhap', 2250000, 15000, 'S002'),
-('TN003', 3, '2022-02-10', 120, 'DaNhap', 1800000, 15000, 'S003'),
-('TN004', 4, '2022-02-05', 90, 'DaNhap', 1350000, 15000, 'S004'),
-('TN005', 5, '2022-03-12', 200, 'ChuaNhap', 3000000, 15000, 'S005'),
-('TN006', 6, '2022-03-15', 110, 'DaNhap', 1650000, 15000, 'S006'),
-('TN007', 7, '2022-04-18', 140, 'ChuaNhap', 2100000, 15000, 'S007'),
-('TN008', 8, '2022-04-25', 130, 'DaNhap', 1950000, 15000, 'S008'),
-('TN009', 9, '2022-05-10', 80, 'ChuaNhap', 1200000, 15000, 'S009');
+  
+INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach)
+VALUES
+    (1, 20, 'ConSach'),  
+    (2, 0, 'HetSach'),   
+    (3, 30, 'ConSach'),  
+    (4, 0, 'HetSach'),  
+    (5, 10, 'ConSach'), 
+    (6, 0, 'HetSach'),  
+    (7, 15, 'ConSach'),  
+    (8, 0, 'HetSach'),   
+    (9, 25, 'ConSach'), 
+    (10, 0, 'HetSach');  
 GO
-
-INSERT INTO Kho_Sach (MaSach, SoLuongHienTai, TrangThaiSach) VALUES
-('S001', 50, 'ConSach'), ('S002', 30, 'ConSach'), ('S003', 20, 'ConSach'), ('S004', 10, 'ConSach'),
-('S005', 0, 'HetSach'), ('S006', 25, 'ConSach'), ('S007', 35, 'ConSach'), ('S008', 10, 'ConSach'),
-('S009', 40, 'ConSach'), ('S010', 15, 'ConSach');
-GO
-
+  
 -------------------------- QUAN LY MUON SACH (Vu Minh Hieu) --------------------------
 INSERT INTO TheMuon (MaDG, IdNV, NgayMuon, NgayHenTra, TrangThai)
 VALUES
