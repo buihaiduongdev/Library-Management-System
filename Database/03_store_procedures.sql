@@ -293,6 +293,24 @@ BEGIN
 END;
 GO
 
+CREATE OR ALTER PROCEDURE sp_TimKiemLichSuTraSach
+    @Keyword NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT *
+    FROM vw_LichSuTraSach
+    WHERE CAST(MaTraSach AS NVARCHAR) LIKE '%' + @Keyword + '%'
+       OR CAST(MaTheMuon AS NVARCHAR) LIKE '%' + @Keyword + '%'
+       OR CAST(MaDG AS NVARCHAR) LIKE '%' + @Keyword + '%'
+       OR TenDocGia LIKE N'%' + @Keyword + N'%'
+       OR MaSach LIKE '%' + @Keyword + '%'
+       OR TenSach LIKE N'%' + @Keyword + N'%'
+       OR TenTacGia LIKE N'%' + @Keyword + N'%'
+       OR CAST(MaPhat AS NVARCHAR) LIKE '%' + @Keyword + '%';
+END;
+GO
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
 CREATE PROCEDURE sp_BaoCaoMuonTheoDocGia
