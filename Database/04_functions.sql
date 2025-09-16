@@ -84,7 +84,7 @@ CREATE OR ALTER FUNCTION fn_TinhTienPhat
     @NgayTraDuKien DATE,
     @NgayTraThucTe DATE,
     @ChatLuongSach VARCHAR(20),
-    @IdS INT   -- Dùng IdS để đồng bộ với FK trong ChiTietTheMuon/ChiTietTraSach
+    @IdS INT
 )
 RETURNS DECIMAL(10,2)
 AS
@@ -93,31 +93,39 @@ BEGIN
     DECLARE @SoNgayTre INT = dbo.fn_TinhNgayTreHan(@NgayTraDuKien, @NgayTraThucTe);
     DECLARE @GiaSach DECIMAL(10,2);
 
-    SELECT @GiaSach = GiaSach 
-    FROM Sach 
-    WHERE IdS = @IdS;
+    SELECT @GiaSach = GiaSach FROM Sach WHERE IdS = @IdS;
+
+    DECLARE @SoNgayToiDa INT, @Muc1 DECIMAL(10,2), @Muc2 DECIMAL(10,2), @PhatHuHong DECIMAL(10,2), @TiLeMat DECIMAL(5,2);
+    SELECT TOP 1 
+        @SoNgayToiDa = SoNgayToiDa,
+        @Muc1 = MucPhatNgay1,
+        @Muc2 = MucPhatNgay2,
+        @PhatHuHong = PhatHuHong,
+        @TiLeMat = PhatMat
+    FROM CauHinhPhat
+    WHERE IsActive = 1;
 
     -- Phạt trễ hạn
     IF @SoNgayTre > 0
     BEGIN
-        SET @Tien = CASE 
-                        WHEN @SoNgayTre <= 5 
-                            THEN @SoNgayTre * 1000
-                        ELSE (5 * 1000) + ((@SoNgayTre - 5) * 3000)
-                    END;
+        IF @SoNgayTre <= @SoNgayToiDa
+            SET @Tien = @SoNgayTre * @Muc1;
+        ELSE
+            SET @Tien = (@SoNgayToiDa * @Muc1) + ((@SoNgayTre - @SoNgayToiDa) * @Muc2);
     END;
 
     -- Phạt hư hỏng
     IF @ChatLuongSach = 'HuHong'
-        SET @Tien = @Tien + 50000;
+        SET @Tien += @PhatHuHong;
 
     -- Phạt mất sách
     IF @ChatLuongSach = 'Mat'
-        SET @Tien = @Tien + @GiaSach;
+        SET @Tien += @GiaSach * (@TiLeMat / 100.0);
 
     RETURN @Tien;
 END;
 GO
+
 
 CREATE OR ALTER PROCEDURE sp_TimKiemSachDangMuon
     @Keyword NVARCHAR(50)
