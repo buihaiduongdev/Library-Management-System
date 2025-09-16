@@ -144,6 +144,31 @@ GROUP BY tm.MaTheMuon, dg.ID, dg.HoTen,
          ctm.SoLuong, tm.NgayMuon, tm.NgayHenTra
 HAVING ctm.SoLuong - ISNULL(SUM(ctts.SoLuongTra), 0) > 0;
 
+CREATE OR ALTER VIEW vw_LichSuTraSach
+AS
+SELECT 
+    ts.MaTraSach,
+    tm.MaTheMuon,
+    dg.ID AS MaDG,
+    dg.HoTen AS TenDocGia,
+    s.MaSach,
+    s.TenSach,
+    tg.TenTacGia,
+    ctts.SoLuongTra,
+    ts.NgayTra,
+    ctts.ChatLuongSach,
+tp.MaPhat,
+    tp.SoTienPhat,
+    tp.TrangThaiThanhToan,
+    tp.NgayThanhToan,
+    ts.GhiChu
+FROM TraSach ts
+JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
+JOIN DocGia dg ON tm.MaDG = dg.ID
+JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach
+JOIN Sach s ON ctts.IdS = s.IdS
+JOIN Tac_Gia tg ON s.IdTacGia = tg.IdTG
+LEFT JOIN ThePhat tp ON ts.MaTraSach = tp.MaTraSach AND ctts.IdS = tp.IdS;
 
 
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
