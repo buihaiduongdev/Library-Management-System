@@ -176,4 +176,14 @@ CREATE TABLE ThePhat (
     NgayThanhToan DATE NULL,
     GhiChu NVARCHAR(255) NULL
 );
+CREATE TABLE CauHinhPhat (
+    IdPhat INT PRIMARY KEY IDENTITY(1,1),
+    SoNgayToiDa INT NOT NULL,
+    MucPhatNgay1 DECIMAL(10,2) NOT NULL,
+    MucPhatNgay2 DECIMAL(10,2) NOT NULL,
+    PhatHuHong DECIMAL(10,2) NOT NULL,
+    PhatMat DECIMAL(5,2) NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 0,  -- 1 = đang sử dụng
+    NgayCapNhat DATE NOT NULL DEFAULT GETDATE()
+);
 
