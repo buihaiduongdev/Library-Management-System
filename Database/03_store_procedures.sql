@@ -266,6 +266,32 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE sp_ThanhToanPhat
+(
+    @MaPhat INT    -- Mã phiếu phạt cần thanh toán
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra có tồn tại phạt chưa thanh toán không
+    IF EXISTS (SELECT 1 FROM ThePhat WHERE MaPhat = @MaPhat AND TrangThaiThanhToan = 'ChuaThanhToan')
+    BEGIN
+        UPDATE ThePhat
+        SET TrangThaiThanhToan = 'DaThanhToan',
+            NgayThanhToan = GETDATE()
+        WHERE MaPhat = @MaPhat;
+
+        -- Trả về thông báo thành công
+        SELECT 'Success' AS KetQua, N'Đã thanh toán thành công' AS ThongBao;
+    END
+    ELSE
+    BEGIN
+        -- Trường hợp không tồn tại hoặc đã thanh toán rồi
+        SELECT 'Fail' AS KetQua, N'Phiếu phạt không tồn tại hoặc đã được thanh toán' AS ThongBao;
+    END
+END;
+GO
 
 -------------------------- Vu Minh Hieu - Quan Ly Muon Sach --------------------------
 GO
