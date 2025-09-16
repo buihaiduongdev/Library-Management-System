@@ -180,26 +180,42 @@ END;
 
 
 
-CREATE OR ALTER TRIGGER trg_MoKhoaDocGiaKhiThanhToan
+CREATE OR ALTER TRIGGER trg_KhoaDocGiaKhiPhat
+ON ThePhat
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE dg
+    SET TrangThai = 'TamKhoa'
+    FROM DocGia dg
+    JOIN TraSach ts ON dg.ID = ts.MaDG
+    JOIN inserted i ON ts.MaTraSach = i.MaTraSach
+    WHERE i.TrangThaiThanhToan = 'ChuaThanhToan';
+END
+
+CREATE OR ALTER TRIGGER trg_MoKhoaDocGiaSauThanhToan
 ON ThePhat
 AFTER UPDATE
 AS
 BEGIN
-    IF UPDATE(TrangThaiThanhToan)
-    BEGIN
-        UPDATE DG
-        SET TrangThai = 'ConHan'
-        FROM DocGia DG
-        WHERE DG.ID IN (
-            SELECT tm.MaDG
-            FROM inserted i
-            JOIN TraSach ts ON i.MaTraSach = ts.MaTraSach
-            JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
-            GROUP BY tm.MaDG
-            HAVING SUM(CASE WHEN i.TrangThaiThanhToan = 'ChuaThanhToan' THEN 1 ELSE 0 END) = 0
-        );
-    END
+    SET NOCOUNT ON;
+
+    -- Cập nhật lại trạng thái độc giả nếu tất cả phí phạt đã được thanh toán
+    UPDATE dg
+    SET TrangThai = 'ConHan'
+    FROM DocGia dg
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM ThePhat p
+        JOIN TraSach ts ON p.MaTraSach = ts.MaTraSach
+        JOIN TheMuon tm ON ts.MaTheMuon = tm.MaTheMuon
+        WHERE tm.MaDG = dg.ID
+          AND p.TrangThaiThanhToan = 'ChuaThanhToan'
+    );
 END;
 GO
+
 
 
