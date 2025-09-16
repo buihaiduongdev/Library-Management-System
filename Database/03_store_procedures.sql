@@ -191,25 +191,7 @@ END;
 GO
 
 
-CREATE OR ALTER PROCEDURE sp_ThongKeTraTre
-AS
-BEGIN
-    SET NOCOUNT ON;
 
-    SELECT 
-        dg.HoTen, 
-        tm.MaTheMuon, 
-        ts.NgayTra, 
-        tm.NgayHenTra,
-        DATEDIFF(DAY, tm.NgayHenTra, ts.NgayTra) AS SoNgayTre,
-        s.TenSach
-    FROM DocGia dg
-    JOIN TheMuon tm ON dg.ID = tm.MaDG
-    JOIN TraSach ts ON tm.MaTheMuon = ts.MaTheMuon
-    JOIN ChiTietTraSach ctts ON ts.MaTraSach = ctts.MaTraSach
-    JOIN Sach s ON ctts.MaSach = s.MaSach
-    WHERE ts.NgayTra > tm.NgayHenTra;
-END;
 
 
 CREATE OR ALTER PROCEDURE sp_BaoCaoTienPhatTheoThang
